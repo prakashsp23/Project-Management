@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar"
 export default function Home() {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       {/* <h1>hii2</h1> */}
       <Button>Click me</Button>
     </div>

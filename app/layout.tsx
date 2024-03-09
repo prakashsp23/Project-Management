@@ -18,10 +18,11 @@ export default function RootLayout({
     <html lang="en">
       
       <body className={inter.className}>
-        {/* <div>
-         <Navbar />
-        </div> */}
-        <ThemeProvider attribute="class" defaultTheme="system">{children}</ThemeProvider>
+        
+        <ThemeProvider attribute="class" defaultTheme="system">
+          <div><Navbar/></div>
+          {children}
+          </ThemeProvider>
         </body>
      
     </html>
