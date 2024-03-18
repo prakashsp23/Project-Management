@@ -11,7 +11,11 @@ import { Button } from "./button"
 import { Label } from "./label"
 import { Input } from "./input"
 import { CirclePlus } from 'lucide-react';
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
 export default function NewProjectCard() {
+    const pathname = usePathname()
     return (
         <div className="flex justify-center items-center">
             <Dialog>
@@ -52,7 +56,17 @@ export default function NewProjectCard() {
                     </div> */}
                     </div>
                     <DialogFooter>
-                        <Button type="submit">Begin</Button>
+                        <Link
+                            href="/synopsis"
+                            // className={cn(
+                            //     "transition-colors hover:text-foreground/100 px-4 flex items-center hover:transition hover:border-b-2  ",
+                            //     pathname?.startsWith("/synopsis")
+                            //         ? "text-foreground"
+                            //         : "text-foreground/60"
+                            // )}
+                        >
+                            <Button type="submit">Begin</Button>
+                        </Link>
                     </DialogFooter>
                 </DialogContent>
             </Dialog></div>
