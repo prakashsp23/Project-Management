@@ -25,6 +25,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
 import Link from "next/link"
+import MultipleSelectorDemo from "./tech-dropdown"
 const formSchema = z.object({
     projectName: z.string().min(2, {
         message: "Project name must be at least 2 characters.",
@@ -133,7 +134,8 @@ export default function ProfileForm() {
                                         TECHNOLOGIES THAT WILL BE USED IN BUILDING THE PROJECT.
                                     </FormDescription>
                                     <FormControl>
-                                        <Input placeholder="" {...field} />
+                                        {/* <Input placeholder="" {...field} /> */}
+                                        <MultipleSelectorDemo/>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

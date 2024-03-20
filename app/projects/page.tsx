@@ -34,6 +34,7 @@ import ProjectCardSection from "@/components/ui/Project-card-sec";
 import NewProjectCard from "@/components/ui/add-new-project-sec";
 import Sparkles1 from "@/components/sparkle-component";
 import SparklesBg from "@/components/sparkle-component";
+import OdlProject from "@/components/old-project";
 export default function MyComponent() {
   const InsideSparkle = () => {
     return <ProjectCardSection />;
@@ -43,6 +44,7 @@ export default function MyComponent() {
       <SparklesBg>
         <InsideSparkle />
       </SparklesBg>
+      <OdlProject/>
     </div>
     // <div>
     //   <SparklesPreview />
