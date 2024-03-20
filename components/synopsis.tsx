@@ -29,9 +29,6 @@ const formSchema = z.object({
     projectName: z.string().min(2, {
         message: "Project name must be at least 2 characters.",
     }),
-    // description: z.string().min(50, {
-    //     message: "Description must be at least 50 words.",
-    // }),orignal
     description: z.string().refine(value => {
         const wordCount = value.trim().split(/\s+/).length;
         return wordCount >= 20;
