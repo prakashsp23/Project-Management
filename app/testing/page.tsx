@@ -1,9 +1,19 @@
-import TypewriterEffectSmoothDemo from "@/components/typewriter-effect";
+// import { TestingComp } from "@/components/testing-component";
 
-export default function Testing(){
-    return(
+import { BackgroundCellAnimation } from "@/components/ripple-grid-bg";
+// import SVGs from "@/components/svg";
+import { PulseBeamsSecond } from "@/components/textingex";
+// import { PulseBeams, PulseBeamsSecond } from "@/components/textingex";
+
+export default function Testing() {
+    return (
         <div>
-            {/* <TypewriterEffectSmoothDemo/> */}
+            {/* <BackgroundCellAnimation /> */}
+            <h1>Testing</h1>
+            {/* <PulseBeams/> */}
+            <PulseBeamsSecond/>
+            {/* <SVGs/> */}
+            {/* <TestingComp></TestingComp> */}
         </div>
     )
-}
+};

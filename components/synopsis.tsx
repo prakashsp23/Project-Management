@@ -88,17 +88,7 @@ export default function ProfileForm() {
     })
     // const [loading, setLoading] = React.useState(false);
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        // toast({
-        //     title: 'Your submitted data',
-        //     description: (
-        //         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-        //             <code className="text-white">{JSON.stringify(values)}</code>
-        //         </pre>
-        //     ),
-        // });     
+    function onSubmit(values: z.infer<typeof formSchema>) {   
         console.log(values)
     }
     return (

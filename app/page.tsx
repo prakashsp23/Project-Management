@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button"
-import Navbar from "@/components/Navbar"
 import SparklesBg from "@/components/sparkle-component";
 // import { LampDemo } from "@/components/main-page"
 export default function Home() {
@@ -8,7 +6,7 @@ export default function Home() {
   };
   return (
     <div>
-      <SparklesBg>
+      <SparklesBg >
         <InsideSparkle />
       </SparklesBg>
     </div>

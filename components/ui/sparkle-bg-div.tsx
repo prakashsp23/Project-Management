@@ -2,7 +2,7 @@ import { SparklesCore } from "./sparkles";
 
 export default function SparklesMain() {
     return (
-        <div className="w-full absolute inset-0 h-screen">
+        <div className="w-full absolute inset-0 h-full">
             <SparklesCore
                 id="tsparticlesfullpage"
                 background="transparent"
