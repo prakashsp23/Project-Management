@@ -33,7 +33,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import NewProjectCard from "@/components/ui/add-new-project-sec";
 export default function ProjectCardSection() {
   return (
-    <div className="">
+    <div className="mb-24 mt-4">
       {/* <div className="mb-4"><ProjectHeading /></div> */}
       <ProjectHeading />
       {/* <div className="h-[35rem] w-full dark:bg-[#09090b] bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative flex items-center justify-center">

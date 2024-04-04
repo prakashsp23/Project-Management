@@ -6,7 +6,7 @@ export function SparklesPreview({ children }: any) {
     const { theme } = useTheme();
 
     return (
-        <div className="h-auto w-full flex flex-col items-center justify-center overflow-hidden rounded-md bg-white dark:bg-[#09090b]">
+        <div className="h-auto w-full flex flex-col items-center justify-center overflow-hidden rounded-md ">
             {/* <h1 className={`md:text-4xl text-3xl lg:text-9xl font-bold text-center text-${theme === 'dark' ? 'white' : 'black'} relative z-20`}>
                 {children}
             </h1> */}

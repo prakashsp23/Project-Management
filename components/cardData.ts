@@ -16,7 +16,7 @@ export const cardData: CardData[] = [
   {
     title: "Project Title 1",
     description:
-      "Project description 1... sapien faucibus et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra accumsan in nisl",
+      "Project description 1... sapien faucibus et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra accumsan in nisl ",
     semester: "Fall 2023",
     people: [
       {

@@ -9,25 +9,30 @@ import Link from "next/link";
 
 export default function MultipleCardsAnimated() {
     return (
-        <div className="grid grid-cols-3">
+        
+            <div className="flex justify-center">
+                <div className="grid grid-cols-3">
                 {cardData.map((data, index) => (
-                    <Link key={index} href={`/${data.title.toLowerCase().replace(/\s/g, '-')}`}>
+                    // <Link key={index} href={`/${data.title.toLowerCase().replace(/\s/g, '-')}`}>
                     <SingleCard key={index} {...data} />
-                    </Link>
+                    // </Link>
                 ))}
-        </div>
+            </div>
+            </div>
 
     );
 }
 
 function SingleCard({ title, description, semester, people, technologies }: CardData) {
     return (
-        <div className="border border-black/[0.2] group/canvas-card flex items-center justify-center dark:border-white/[0.2] max-w-sm w-full m-16 relative h-auto">
+        <div className="mx-4 my-8 ">
+            <div className="border border-black/[0.2] group/canvas-card flex items-center justify-center dark:border-white/[0.2] max-w-sm w-full  relative h-auto">
             <Icon className="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-black" />
             <Icon className="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-black" />
             <Icon className="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-black" />
             <Icon className="absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-black" />
-            <Card className="w-full max-w-sm h-96 relative">
+            <Link  href={`/${title.toLowerCase().replace(/\s/g, '-')}`}>
+            <Card className="w-[22rem] max-w-sm h-[25rem] relative">
                 <CardHeader className="flex flex-row items-center">
 
                     <div className="space-y-1.5">
@@ -68,6 +73,8 @@ function SingleCard({ title, description, semester, people, technologies }: Card
                     </div>
                 </CardContent>
             </Card>
+        </Link>
+        </div>
         </div>
     );
 }
