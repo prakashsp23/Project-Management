@@ -4,6 +4,7 @@ import { Chat } from "@/components/ui/chat/chat";
 import React, { useEffect, useState } from "react";
 import { UserCard } from "@/components/member-teacher";
 import { userData } from "@/components/data";
+import { CardsMetric } from "@/components/git-line";
 export default function Team() {
     const [selectedUser, setSelectedUser] = React.useState(userData[0]);
     const [isMobile, setIsMobile] = useState(false);
@@ -57,6 +58,7 @@ export default function Team() {
                     <Card>hii1</Card>
                 </div>
             </div>
+            <div className="m-16"><CardsMetric/></div>
         </div>
     )
 }
