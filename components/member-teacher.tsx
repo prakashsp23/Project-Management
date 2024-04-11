@@ -30,6 +30,7 @@ export function UserCard({ name, imageUrl, altText}:UserCardProps) {
                     />
                     <div className="flex flex-col max-w-28">
                         <span>{name}</span>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Role</p>
                         {/* Additional user information can be added here */}
                     </div>
                 </div>

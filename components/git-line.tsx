@@ -29,6 +29,7 @@ const data = [
         message: "Update dependencies",
         owner: "Eve",
     },
+ 
 ];
 
 export function CardsMetric() {
