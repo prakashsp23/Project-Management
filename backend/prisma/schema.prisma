@@ -11,42 +11,45 @@ generator client {
 
 // Define your database schema
 model Student {
-  userId        String          @id @default(cuid())
-  email         String          @unique
-  username      String          @unique
-  password      String
-  lastSignedIn  DateTime?
-  dateCreated   DateTime        @default(now())
-  dateUpdated   DateTime        @default(now()) @updatedAt
-  profile       StudentProfile? @relation(fields: [profileId], references: [id])
-  profileId     String?
-  tokens        StudentToken[]
+  userId           String          @id @default(cuid())
+  email            String          @unique
+  username         String          @unique
+  password         String
+  lastSignedIn     DateTime?
+  dateCreated      DateTime        @default(now())
+  dateUpdated      DateTime        @default(now()) @updatedAt
+  profile          StudentProfile? @relation(fields: [profileId], references: [id])
+  profileId        String?
+  tokens           StudentToken[]
+  projectsAsMember Project[]       @relation("TeamMember")
+  projectsAsLeader Project[]       @relation("Leader")
 }
 
 model Teacher {
-  userId        String          @id @default(cuid())
-  email         String          @unique
-  username      String          @unique
-  password      String
-  lastSignedIn  DateTime?
-  dateCreated   DateTime        @default(now())
-  dateUpdated   DateTime        @default(now()) @updatedAt
-  profile       TeacherProfile? @relation(fields: [profileId], references: [id])
-  profileId     String?
-  tokens        TeacherToken[]
+  userId       String          @id @default(cuid())
+  email        String          @unique
+  username     String          @unique
+  password     String
+  lastSignedIn DateTime?
+  dateCreated  DateTime        @default(now())
+  dateUpdated  DateTime        @default(now()) @updatedAt
+  profile      TeacherProfile? @relation(fields: [profileId], references: [id])
+  profileId    String?
+  tokens       TeacherToken[]
+  projects     Project[]
 }
 
 model StudentProfile {
-  id          String       @id @default(cuid())
+  id          String    @id @default(cuid())
   firstName   String
   lastName    String
-  students    Student[] // Rename 'Student' to 'students' to match pluralization convention
+  students    Student[]
   dateCreated DateTime  @default(now())
   dateUpdated DateTime  @default(now()) @updatedAt
 }
 
 model TeacherProfile {
-  id          String       @id @default(cuid())
+  id          String    @id @default(cuid())
   firstName   String
   lastName    String
   teachers    Teacher[] // Rename 'Teacher' to 'teachers' to match pluralization convention
@@ -55,15 +58,36 @@ model TeacherProfile {
 }
 
 model StudentToken {
-  id       String   @id @default(cuid())
-  userId   String
-  token    String
-  student  Student? @relation(fields: [userId], references: [userId], onDelete: Cascade) // Fix relation to use 'userId'
+  id      String   @id @default(cuid())
+  userId  String
+  token   String
+  student Student? @relation(fields: [userId], references: [userId], onDelete: Cascade) // Fix relation to use 'userId'
 }
 
 model TeacherToken {
-  id       String   @id @default(cuid())
-  userId   String
-  token    String
-  teacher  Teacher? @relation(fields: [userId], references: [userId], onDelete: Cascade) // Fix relation to use 'userId'
+  id      String   @id @default(cuid())
+  userId  String
+  token   String
+  teacher Teacher? @relation(fields: [userId], references: [userId], onDelete: Cascade) // Fix relation to use 'userId'
+}
+
+model Project {
+  id               String      @id @default(cuid())
+  title            String
+  description      String
+  teamLeader       Student     @relation("Leader", fields: [teamLeaderId], references: [userId])
+  teamLeaderId     String
+  teamMembers      Student[]   @relation("TeamMember")
+  mentors          Teacher[]
+  problemStatement String?
+  githubLink       String?
+  technologiesUsed String[]
+  projectType      ProjectType @default(Software)
+  dateCreated      DateTime    @default(now())
+  dateUpdated      DateTime    @default(now()) @updatedAt
+}
+
+enum ProjectType {
+  Software
+  Hardware
 }

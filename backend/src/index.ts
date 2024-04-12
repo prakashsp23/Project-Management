@@ -4,6 +4,7 @@ import cors from "cors";
 import { Server } from "socket.io";
 import { createServer } from "http";
 import { endpoints } from "./endpoints";
+import { authenticateToken } from "./api/_shared/middleware/verifyToken";
 
 dotenv.config();
 
@@ -28,7 +29,23 @@ app.use((req: CustomRequest, res: Response, next: NextFunction) => {
 
 // Define API endpoints
 endpoints(app);
+
+// Middleware to skip token authentication for certain routes
+const skipTokenAuth = (req: Request, res: Response, next: NextFunction) => {
+  const skipRoutes = ["/register", "/login", "/logout"];
+  if (skipRoutes.includes(req.path)) {
+    return next();
+  }
+  next();
+};
+
+app.use(skipTokenAuth); // Apply the skipTokenAuth middleware after defining endpoints
+
+// Middleware to authenticate token
+app.use(authenticateToken); // Apply the authenticateToken middleware after defining endpoints
+
 console.log(process.env.JWT_SECRET);
+
 // Start the server
 server.listen(port, () => {
   console.log(`Server listening on port http://localhost:${port}`);

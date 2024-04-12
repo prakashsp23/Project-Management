@@ -1,68 +1,35 @@
 import { Request, Response, NextFunction } from "express";
-import { sendRes } from "../../../../types/response";
-// import { studentUser } from "../../../../prisma/outputs/project";
 import jwt from "jsonwebtoken";
-import env from "dotenv";
-import { appContext } from "../../../../src/context/context";
-env.config();
 
-// Define a custom interface to extend the Request type
-export interface CustomRequest extends Request {
-  user?: iFiveUser;
-  io: any;
+// Define a custom interface to extend the Express Request interface
+interface CustomRequest<T> extends Request {
+  user?: T; // Define a user property to hold the decoded user information
 }
 
-// Middleware to decode and verify Firebase token
-export const iFiveUserMiddleware = async (
-  req: CustomRequest,
+// Middleware function to verify JWT token
+export const authenticateToken = (
+  req: CustomRequest<any>,
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const token = req.header("Authorization")?.split(" ")[1]; // Assuming the token is in the format "Bearer <token>"
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (!token) {
-      return sendRes({
-        res: res,
-        code: 401,
-        data: null,
-        success: false,
-        message: "Unauthorized.",
-      });
-    }
-    const user = await appContext.databases.ifive.iFiveUser.findUnique({
-      where: {
-        id: decoded["user"]["id"],
-      },
-    });
-    if (!user) {
-      return sendRes({
-        res: res,
-        code: 401,
-        data: null,
-        success: false,
-        message: "User not found.",
-      });
-    }
-    // UNCOMMENT this when access types are supported
-    // if(user.type !== "ADMIN") {
-    //   return sendRes({
-    //     res: res,
-    //     code: 401,
-    //     data: null,
-    //     success: false,
-    //     message: "You dont have admin access rights!",
-    //   });
-    // }
-    req.user = user;
-    next();
-  } catch (error) {
-    return sendRes({
-      res: res,
-      code: 401,
-      data: null,
-      success: false,
-      message: error,
-    });
+  // Get the JWT token from the Authorization header
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    // If token is not provided, return a 401 Unauthorized response
+    return res.status(401).json({ error: "Unauthorized: No token provided" });
   }
+
+  // Verify the token
+  jwt.verify(token, process.env.JWT_SECRET as string, (err, user) => {
+    if (err) {
+      // If token verification fails, return a 403 Forbidden response
+      return res.status(403).json({ error: "Forbidden: Invalid token" });
+    }
+    // If token is valid, attach the decoded user information to the request object
+    req.user = user;
+    // Proceed to the next middleware or route handler
+    next();
+  });
 };
