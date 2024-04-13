@@ -33,3 +33,16 @@ export const authenticateToken = (
     next();
   });
 };
+
+// Middleware to skip token authentication for certain routes
+export const skipTokenAuth = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const skipRoutes = ["/register", "/login", "/logout"];
+  if (skipRoutes.includes(req.path)) {
+    return next();
+  }
+  next();
+};

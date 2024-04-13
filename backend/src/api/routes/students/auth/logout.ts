@@ -1,26 +1,22 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import { PrismaClient } from "@prisma/client";
+import asyncHandler from "express-async-handler";
 
 const prisma = new PrismaClient();
 const router = express.Router();
 
 export const logoutStudent = router.post(
   "/logout",
-  async (req: Request, res: Response) => {
-    try {
-      const { userId } = req.body;
+  asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const { userId } = req.body;
 
-      // Delete all tokens associated with the user
-      await prisma.studentToken.deleteMany({
-        where: { userId },
-      });
+    // Delete all tokens associated with the user
+    await prisma.studentToken.deleteMany({
+      where: { userId },
+    });
 
-      res.status(200).json({ message: "Logout successful" });
-    } catch (error) {
-      console.error("Error logging out:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  }
+    res.status(200).json({ message: "Logout successful" });
+  })
 );
 
 export default router;

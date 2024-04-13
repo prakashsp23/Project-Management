@@ -1,6 +1,7 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
+import expressAsyncHandler from "express-async-handler";
 
 dotenv.config();
 
@@ -9,8 +10,8 @@ const router = express.Router();
 
 export const createProject = router.post(
   "/projects",
-  async (req: Request, res: Response) => {
-    try {
+  expressAsyncHandler(
+    async (req: Request, res: Response, next: NextFunction) => {
       const {
         title,
         description,
@@ -34,16 +35,12 @@ export const createProject = router.post(
 
       if (teamMembersIds) {
         if (!Array.isArray(teamMembersIds)) {
-          return res
-            .status(400)
-            .json({ error: "teamMembersIds must be an array" });
+          throw new Error("teamMembersIds must be an array");
         }
 
         // Ensure teamMembersIds is an array of strings
         if (teamMembersIds.some((id) => typeof id !== "string")) {
-          return res
-            .status(400)
-            .json({ error: "teamMembersIds must contain only string values" });
+          throw new Error("teamMembersIds must contain only string values");
         }
 
         // Connect teamMembers if teamMembersIds is provided
@@ -68,11 +65,6 @@ export const createProject = router.post(
         project: createdProject,
         message: "Project created successfully",
       });
-    } catch (error) {
-      console.error("Error creating project:", error);
-      res.status(500).json({ error: "Internal server error" });
     }
-  }
+  )
 );
-
-export default router;

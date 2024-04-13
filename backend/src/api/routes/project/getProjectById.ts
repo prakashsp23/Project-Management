@@ -1,13 +1,14 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import expressAsyncHandler from "express-async-handler";
 
 const prisma = new PrismaClient();
 const router = express.Router();
 
 export const getProjectById = router.get(
   "/projects/:id",
-  async (req: Request, res: Response) => {
-    try {
+  expressAsyncHandler(
+    async (req: Request, res: Response, next: NextFunction) => {
       const { id } = req.params;
 
       // Fetch the project from the database by ID
@@ -23,17 +24,14 @@ export const getProjectById = router.get(
 
       // If the project is not found, return a 404 response
       if (!project) {
-        return res.status(404).json({ error: "Project not found" });
+        throw new Error("Project not found");
       }
 
       res.status(200).json({
         project,
       });
-    } catch (error) {
-      console.error("Error getting project by ID:", error);
-      res.status(500).json({ error: "Internal server error" });
     }
-  }
+  )
 );
 
 export default router;

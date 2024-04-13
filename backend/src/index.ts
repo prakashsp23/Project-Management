@@ -4,7 +4,14 @@ import cors from "cors";
 import { Server } from "socket.io";
 import { createServer } from "http";
 import { endpoints } from "./endpoints";
-import { authenticateToken } from "./api/_shared/middleware/verifyToken";
+import {
+  authenticateToken,
+  skipTokenAuth,
+} from "./api/_shared/middleware/verifyToken";
+import {
+  errorHandler,
+  notFound,
+} from "./api/_shared/middleware/errorMiddleware";
 
 dotenv.config();
 
@@ -30,19 +37,15 @@ app.use((req: CustomRequest, res: Response, next: NextFunction) => {
 // Define API endpoints
 endpoints(app);
 
-// Middleware to skip token authentication for certain routes
-const skipTokenAuth = (req: Request, res: Response, next: NextFunction) => {
-  const skipRoutes = ["/register", "/login", "/logout"];
-  if (skipRoutes.includes(req.path)) {
-    return next();
-  }
-  next();
-};
-
-app.use(skipTokenAuth); // Apply the skipTokenAuth middleware after defining endpoints
-
 // Middleware to authenticate token
+
+app.use(skipTokenAuth);
+
 app.use(authenticateToken); // Apply the authenticateToken middleware after defining endpoints
+
+// Erro handling
+app.use(errorHandler);
+app.use(notFound);
 
 console.log(process.env.JWT_SECRET);
 

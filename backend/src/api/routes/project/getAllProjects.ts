@@ -1,13 +1,14 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import expressAsyncHandler from "express-async-handler";
 
 const prisma = new PrismaClient();
 const router = express.Router();
 
 export const getAllProjects = router.get(
   "/projects",
-  async (req: Request, res: Response) => {
-    try {
+  expressAsyncHandler(
+    async (req: Request, res: Response, next: NextFunction) => {
       // Fetch all projects from the database
       const projects = await prisma.project.findMany({
         include: {
@@ -19,11 +20,8 @@ export const getAllProjects = router.get(
       res.status(200).json({
         projects,
       });
-    } catch (error) {
-      console.error("Error getting all projects:", error);
-      res.status(500).json({ error: "Internal server error" });
     }
-  }
+  )
 );
 
 export default router;
