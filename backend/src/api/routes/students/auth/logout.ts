@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 const router = express.Router();
 
 export const logoutStudent = router.post(
-  "/logout",
+  "/student/logout",
   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req.body;
 

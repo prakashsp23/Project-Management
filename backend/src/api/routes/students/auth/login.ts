@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 const router = express.Router();
 
 export const loginStudent = router.post(
-  "/login",
+  "/student/auth",
   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { username, password } = req.body;
 
@@ -32,8 +32,9 @@ export const loginStudent = router.post(
       throw new Error("JWT_SECRET is not defined");
     }
 
-    const token = jwt.sign({ userId: student.userId }, process.env.JWT_SECRET);
-
+    const token = jwt.sign({ userId: student.userId }, process.env.JWT_SECRET, {
+      expiresIn: "30d",
+    });
     // Update lastSignedIn timestamp
     await prisma.student.update({
       where: { userId: student.userId },

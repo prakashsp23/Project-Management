@@ -40,7 +40,7 @@ export const skipTokenAuth = (
   res: Response,
   next: NextFunction
 ) => {
-  const skipRoutes = ["/register", "/login", "/logout"];
+  const skipRoutes = ["/student/register", "/student/auth", "/student/logout"];
   if (skipRoutes.includes(req.path)) {
     return next();
   }

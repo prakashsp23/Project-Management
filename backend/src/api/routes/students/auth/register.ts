@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 const router = express.Router();
 
 export const registerStudent = router.post(
-  "/register",
+  "/student/register",
   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { email, username, password, firstName, lastName } = req.body;
     // Hash the password before storing it in the database
@@ -54,7 +54,7 @@ export const registerStudent = router.post(
     const token = jwt.sign(
       { userId: createdStudent.userId },
       process.env.JWT_SECRET,
-      { expiresIn: "90d" }
+      { expiresIn: "30d" }
     );
 
     // Store the token in the Token table

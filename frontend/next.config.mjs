@@ -1,12 +1,18 @@
-
-
-// export default nextConfig;
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   images: {
-      domains: ["images.unsplash.com", "unsplash.com","example.com"],
-      // can specify remote image patterns using the `domains` array
-      // domains: ["images.unsplash.com", "unsplash.com"]
+    domains: ["images.unsplash.com", "unsplash.com", "example.com"],
+    // can specify remote image patterns using the `domains` array
+    // domains: ["images.unsplash.com", "unsplash.com"]
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "http://localhost:8000/:path*", // Proxy to Backend
+      },
+    ];
   },
 };
 
