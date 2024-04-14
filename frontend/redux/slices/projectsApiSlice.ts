@@ -15,6 +15,12 @@ export const projectsApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getProjectsByStudentId: builder.mutation({
+      query: (data) => ({
+        url: `${PROJETS_URL}/student/${data?.id}`,
+        method: "GET",
+      }),
+    }),
     createProject: builder.mutation({
       query: (data) => ({
         url: `${PROJETS_URL}`,
@@ -34,6 +40,7 @@ export const projectsApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetAllProjectMutation,
+  useGetProjectsByStudentIdMutation,
   useCreateProjectMutation,
   useGetProjectByIdMutation,
   useUpdateProjectMutation,

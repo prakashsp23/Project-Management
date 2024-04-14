@@ -3,7 +3,7 @@ import { useState, useEffect, SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useLoginMutation } from "@/redux/slices/studentApiSlice";
-import { setCredentials } from "@/redux/slices/authSlice";
+import { setCredentials, setProjects } from "@/redux/slices/authSlice";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/newinput";
 import { Label } from "@/components/ui/label";
 import { toast } from "react-toastify";
+import { useGetAllProjectMutation } from "@/redux/slices/projectsApiSlice";
 export default function Signin() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -25,6 +26,8 @@ export default function Signin() {
   const dispatch = useDispatch();
 
   const [login, { isLoading }] = useLoginMutation();
+  const [getAllProjects, { isLoading: isProjectsLoading }] =
+    useGetAllProjectMutation();
 
   const { userInfo } = useSelector((state: any) => state.auth);
 
@@ -33,9 +36,14 @@ export default function Signin() {
     try {
       console.log(username, password);
       const res = await login({ username, password }).unwrap();
-      dispatch(setCredentials({ ...res }));
+      const ress: any = await getAllProjects({
+        ...userInfo?.userId,
+      }).unwrap();
+      dispatch(setProjects(ress.projects));
+      dispatch(setCredentials({ ...res.student }));
       console.log("LOGGED IN");
     } catch (error: any) {
+      toast.error(error?.data?.message || error.error);
     }
   };
 
@@ -79,5 +87,5 @@ export default function Signin() {
         </Button>
       </CardFooter>
     </Card>
-  )
+  );
 }

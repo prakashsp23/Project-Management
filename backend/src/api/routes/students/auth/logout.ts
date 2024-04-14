@@ -8,13 +8,10 @@ const router = express.Router();
 export const logoutStudent = router.post(
   "/student/logout",
   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    const { userId } = req.body;
-
-    // Delete all tokens associated with the user
-    await prisma.studentToken.deleteMany({
-      where: { userId },
+    res.cookie("jwt", "", {
+      httpOnly: true,
+      expires: new Date(0),
     });
-
     res.status(200).json({ message: "Logout successful" });
   })
 );

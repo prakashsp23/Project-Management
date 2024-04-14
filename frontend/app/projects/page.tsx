@@ -1,15 +1,9 @@
 "use client";
 import * as React from "react";
-import { Separator } from "@/components/ui/separator";
 import ProjectCardSection from "@/components/ui/Project-card-sec";
-import SparklesBg from "@/components/sparkle-component";
-import OdlProject from "@/components/old-project";
 import MultipleCardsAnimated from "@/components/muli-animated";
-import { BackgroundCellAnimation } from "@/components/ripple-grid-bg";
-import { GridBackground } from "@/components/ui/grid-bg";
 import { SparklesPreview } from "@/components/sparkleheading";
 import { motion } from "framer-motion";
-import { TracingBeam } from "@/components/ui/tracing-beam";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +14,7 @@ import { toast } from "react-toastify";
 import withAuth from "@/lib/PrivateRoute";
 
 function MyComponent() {
-  const projects = useSelector((state: any) => state.auth.projects);
+  const { projects, userInfo } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
 
   const [getAllProjects, { isLoading: isProjectsLoading }] =
@@ -29,7 +23,9 @@ function MyComponent() {
   const getProjects = async () => {
     try {
       console.log("getting all the projects of the student");
-      const res: any = await getAllProjects({}).unwrap();
+      const res: any = await getAllProjects({
+        ...userInfo?.userId,
+      }).unwrap();
       dispatch(setProjects(res.projects));
     } catch (error: any) {
       console.log(error);
@@ -38,7 +34,8 @@ function MyComponent() {
   };
   useEffect(() => {
     getProjects();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userInfo]);
 
   // useEffect(() => {
   //   console.log(projects);

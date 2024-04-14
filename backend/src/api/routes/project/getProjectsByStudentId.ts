@@ -1,12 +1,14 @@
 import express, { NextFunction, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import expressAsyncHandler from "express-async-handler";
+import { authenticateToken } from "../../_shared/middleware/verifyToken";
 
 const prisma = new PrismaClient();
 const router = express.Router();
 
 export const getProjectByStudentUserId = router.get(
   "/projects/student/:userId",
+  authenticateToken,
   expressAsyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
       const userId = req.params.userId;

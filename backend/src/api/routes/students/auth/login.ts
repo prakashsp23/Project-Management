@@ -41,17 +41,15 @@ export const loginStudent = router.post(
       data: { lastSignedIn: new Date() },
     });
 
-    // Store the token in the Token table
-    await prisma.studentToken.create({
-      data: {
-        userId: student.userId,
-        token,
-      },
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
+      maxAge: 30 * 24 * 3600 * 1000,
     });
 
     res.json({
       student,
-      token,
     });
   })
 );

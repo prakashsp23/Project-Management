@@ -18,9 +18,7 @@ model Student {
   lastSignedIn     DateTime?
   dateCreated      DateTime        @default(now())
   dateUpdated      DateTime        @default(now()) @updatedAt
-  profile          StudentProfile? @relation(fields: [profileId], references: [id])
-  profileId        String?
-  tokens           StudentToken[]
+  profile          StudentProfile?
   projectsAsMember Project[]       @relation("TeamMember")
   projectsAsLeader Project[]       @relation("Leader")
 }
@@ -33,48 +31,40 @@ model Teacher {
   lastSignedIn DateTime?
   dateCreated  DateTime        @default(now())
   dateUpdated  DateTime        @default(now()) @updatedAt
-  profile      TeacherProfile? @relation(fields: [profileId], references: [id])
-  profileId    String?
-  tokens       TeacherToken[]
+  profile      TeacherProfile?
   projects     Project[]
 }
 
 model StudentProfile {
-  id          String    @id @default(cuid())
-  firstName   String
-  lastName    String
-  students    Student[]
-  dateCreated DateTime  @default(now())
-  dateUpdated DateTime  @default(now()) @updatedAt
+  id             String    @id @default(cuid())
+  firstName      String
+  lastName       String
+  semester       Int?
+  branch         String?
+  graduationDate DateTime?
+  CRN            Int?
+  URN            String?
+  studentId      String    @unique
+  student        Student   @relation(fields: [studentId], references: [userId], onDelete: Cascade)
+  dateCreated    DateTime  @default(now())
+  dateUpdated    DateTime  @default(now()) @updatedAt
 }
 
 model TeacherProfile {
-  id          String    @id @default(cuid())
+  id          String   @id @default(cuid())
   firstName   String
   lastName    String
-  teachers    Teacher[] // Rename 'Teacher' to 'teachers' to match pluralization convention
-  dateCreated DateTime  @default(now())
-  dateUpdated DateTime  @default(now()) @updatedAt
-}
-
-model StudentToken {
-  id      String   @id @default(cuid())
-  userId  String
-  token   String
-  student Student? @relation(fields: [userId], references: [userId], onDelete: Cascade) // Fix relation to use 'userId'
-}
-
-model TeacherToken {
-  id      String   @id @default(cuid())
-  userId  String
-  token   String
-  teacher Teacher? @relation(fields: [userId], references: [userId], onDelete: Cascade) // Fix relation to use 'userId'
+  teacherId   String   @unique
+  teacher     Teacher  @relation(fields: [teacherId], references: [userId], onDelete: Cascade)
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @default(now()) @updatedAt
 }
 
 model Project {
   id               String      @id @default(cuid())
   title            String
   description      String
+  problemsSolved   String?
   teamLeader       Student     @relation("Leader", fields: [teamLeaderId], references: [userId])
   teamLeaderId     String
   teamMembers      Student[]   @relation("TeamMember")

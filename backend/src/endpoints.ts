@@ -11,7 +11,6 @@ import {
   updateProjectTeamMembers,
 } from "./api/routes/project/updateProject";
 import { getProjectByStudentUserId } from "./api/routes/project/getProjectsByStudentId";
-import { authenticateToken } from "./api/_shared/middleware/verifyToken";
 
 const API = "";
 
@@ -27,7 +26,7 @@ export const endpoints = async (app: express.Application) => {
   app.use(API, updateProjectTeamMembers);
   app.use(API, updateProjectMentors);
 
-  app.use(API, authenticateToken, getAllProjects);
+  app.use(API, getAllProjects);
   app.use(API, getProjectById);
   app.use(API, getProjectByStudentUserId);
 

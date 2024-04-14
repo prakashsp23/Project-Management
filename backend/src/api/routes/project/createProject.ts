@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
 import expressAsyncHandler from "express-async-handler";
+import { authenticateToken } from "../../_shared/middleware/verifyToken";
 
 dotenv.config();
 
@@ -10,6 +11,7 @@ const router = express.Router();
 
 export const createProject = router.post(
   "/projects",
+  authenticateToken,
   expressAsyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
       const {

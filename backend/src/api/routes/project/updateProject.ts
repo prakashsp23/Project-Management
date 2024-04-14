@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import { PrismaClient, ProjectType } from "@prisma/client";
 import expressAsyncHandler from "express-async-handler";
+import { authenticateToken } from "../../_shared/middleware/verifyToken";
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -15,6 +16,7 @@ interface ProjectUpdateData {
 
 export const updateProject = router.put(
   "/projects/:id",
+  authenticateToken,
   async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
@@ -66,6 +68,7 @@ export const updateProject = router.put(
 
 export const updateProjectTeamMembers = router.put(
   "/projects/:id/team-members",
+  authenticateToken,
   expressAsyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
       const { id } = req.params;
@@ -108,6 +111,7 @@ export const updateProjectTeamMembers = router.put(
 
 export const updateProjectMentors = router.put(
   "/projects/:id/mentors",
+  authenticateToken,
   expressAsyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
     const { mentors } = req.body;

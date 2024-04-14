@@ -11,17 +11,8 @@ export default function Team() {
     const [isMobile, setIsMobile] = useState(false);
     return (
         <div className="px-8">
-            {/* <TeamTop />
-            <div className="flex justify-center pb-10">
-                <Card className="h-[40rem] w-[45rem] border-2 rounded-lg max-w-5xl">
-                    <Chat
-                        selectedUser={selectedUser}
-                        isMobile={isMobile}
-                    />
-                </Card>
-            </div> */}
+
             <TeamTab/>
-            {/* <Tabs2/> */}
         </div>
 
     )

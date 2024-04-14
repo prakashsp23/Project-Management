@@ -57,12 +57,10 @@ export const registerStudent = router.post(
       { expiresIn: "30d" }
     );
 
-    // Store the token in the Token table
-    await prisma.studentToken.create({
-      data: {
-        userId: createdStudent.userId,
-        token,
-      },
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 30 * 24 * 3600 * 1000,
     });
 
     res.status(201).json({
