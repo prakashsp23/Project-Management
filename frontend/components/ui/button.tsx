@@ -19,6 +19,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         grey: "bg-accent/30 text-accent-foreground shadow-sm hover:bg-accent/80",
+        neubutton:"px-6 py-2  font-bold   w-fit transition-all shadow-[3px_3px_0px_black] dark:shadow-[3px_3px_0px_white] dark:hover:shadow-none hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]"
       },
       size: {
         default: "h-9 px-4 py-2",
