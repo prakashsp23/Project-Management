@@ -9,6 +9,7 @@ import { NavbarDemo } from "@/components/floating-nav";
 import { ReduxProvider } from "@/redux/provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useTheme } from "next-themes";
 
 export const metadata: Metadata = {
   title: "Minor Project Management",
@@ -25,10 +26,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <ReduxProvider>
           <ThemeProvider attribute="class" defaultTheme="system">
-            <ToastContainer />
-            <div className="">
-              <NavbarDemo />
-            </div>
+            <ToastContainer theme={"dark"} />
+            <NavbarDemo />
             <div className="absolute w-full top-24">{children}</div>
           </ThemeProvider>
         </ReduxProvider>

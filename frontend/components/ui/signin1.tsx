@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useLoginMutation } from "@/redux/slices/studentApiSlice";
 import { setCredentials } from "@/redux/slices/authSlice";
-
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,8 +36,8 @@ export default function DemoSignin() {
       console.log(username, password);
       const res = await login({ username, password }).unwrap();
       dispatch(setCredentials({ ...res }));
+      console.log("LOGGED IN");
     } catch (error: any) {
-      toast.error(error.data.message);
     }
   };
 
