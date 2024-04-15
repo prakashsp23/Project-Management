@@ -21,8 +21,8 @@ export function NavbarDemo() {
   // </div>
   // );
   if (userInfo) {
-    return <div className="relative w-full flex items-center justify-center ">
-      <Navbar className="top-2" />
+    return <div suppressHydrationWarning={true} className="relative w-full flex items-center justify-center ">
+      <Navbar  className="top-2" />
     </div>;
   } else {
     return null;

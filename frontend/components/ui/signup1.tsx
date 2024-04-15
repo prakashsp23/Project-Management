@@ -30,9 +30,9 @@ export default function Signup() {
                         <Label htmlFor="lastname">Last name</Label>
                         <Input id="lastname" placeholder="Abc" type="text" />
                     </LabelInputContainer>
-                    
+
                 </div>
-                    {/* <div className="my-4">
+                {/* <div className="my-4">
                     <LabelInputContainer>
                         <Label htmlFor="lastname">Profession</Label>
                         <Select >
@@ -46,6 +46,18 @@ export default function Signup() {
                     </Select>
                     </LabelInputContainer>
                     </div> */}
+                <LabelInputContainer className="mb-4">
+                    <Label htmlFor="username">Username</Label>
+                    <Input
+                        id="username"
+                        type="text"
+                        placeholder="abc"
+                        // value={username}
+                        // onChange={(e: any) => {
+                        //     setUsername(e.target.value);
+                        // }}
+                    />
+                </LabelInputContainer>
                 <LabelInputContainer className="mb-4">
                     <Label htmlFor="email">Email</Label>
                     <Input id="email" placeholder="projectmayhem@fc.com" type="email" />

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useLoginMutation } from "@/redux/slices/studentApiSlice";
 import { setCredentials, setProjects } from "@/redux/slices/authSlice";
-import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   Card,

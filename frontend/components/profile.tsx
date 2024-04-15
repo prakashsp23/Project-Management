@@ -84,15 +84,24 @@ export function ProfileDropdown() {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>
+                <Link
+                        href={userInfo ? "/profile" : "/newsignin"}
+                        // className={cn(
+                        //     "transition-colors hover:text-foreground/100 px-4  flex items-center hover:transition hover:border-b-2",
+                        //     pathname?.startsWith("/newsignin")
+                        //         ? "text-foreground"
+                        //         : "text-foreground/60"
+                        // )}
+                        // onClick={handleLoginLogout}
+                    >
+                        <DropdownMenuItem>
                         <User className="mr-2 h-4 w-4" />
                         <span>Profile</span>
                     </DropdownMenuItem>
+                    </Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <Link
+                <Link
                         href={userInfo ? "/" : "/newsignin"}
                         // className={cn(
                         //     "transition-colors hover:text-foreground/100 px-4  flex items-center hover:transition hover:border-b-2",
@@ -102,9 +111,11 @@ export function ProfileDropdown() {
                         // )}
                         onClick={handleLoginLogout}
                     >
-                        <span>Log out</span>
+                        <DropdownMenuItem>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Log Out</span>
+                    </DropdownMenuItem>
                     </Link>
-                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     )

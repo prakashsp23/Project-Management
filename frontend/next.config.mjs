@@ -2,7 +2,7 @@
 
 const nextConfig = {
   images: {
-    domains: ["images.unsplash.com", "unsplash.com", "example.com"],
+    domains: ["images.unsplash.com", "unsplash.com", "example.com","github.com"],
     // can specify remote image patterns using the `domains` array
     // domains: ["images.unsplash.com", "unsplash.com"]
   },
