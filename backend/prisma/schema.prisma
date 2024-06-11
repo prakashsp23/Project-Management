@@ -23,16 +23,24 @@ model Student {
   projectsAsLeader Project[]       @relation("Leader")
 }
 
+enum TeacherRole {
+  SUPER_ADMIN
+  ADMIN
+  REGULAR
+}
+
 model Teacher {
-  userId       String          @id @default(cuid())
-  email        String          @unique
-  username     String          @unique
-  password     String
-  lastSignedIn DateTime?
-  dateCreated  DateTime        @default(now())
-  dateUpdated  DateTime        @default(now()) @updatedAt
-  profile      TeacherProfile?
-  projects     Project[]
+  userId           String          @id @default(cuid())
+  email            String          @unique
+  username         String          @unique
+  password         String
+  role             TeacherRole
+  lastSignedIn     DateTime?
+  dateCreated      DateTime        @default(now())
+  dateUpdated      DateTime        @default(now()) @updatedAt
+  profile          TeacherProfile?
+  projectsAsMentor Project[]       @relation("Mentors")
+  projectsAsTA     Project[]       @relation("TA")
 }
 
 model StudentProfile {
@@ -60,24 +68,34 @@ model TeacherProfile {
   dateUpdated DateTime @default(now()) @updatedAt
 }
 
-model Project {
-  id               String      @id @default(cuid())
-  title            String
-  description      String
-  problemsSolved   String?
-  teamLeader       Student     @relation("Leader", fields: [teamLeaderId], references: [userId])
-  teamLeaderId     String
-  teamMembers      Student[]   @relation("TeamMember")
-  mentors          Teacher[]
-  problemStatement String?
-  githubLink       String?
-  technologiesUsed String[]
-  projectType      ProjectType @default(Software)
-  dateCreated      DateTime    @default(now())
-  dateUpdated      DateTime    @default(now()) @updatedAt
+enum ProjectStatus {
+  PENDING_APPROVAL
+  REJECTED
+  COMPLETED
+  IN_PROGRESS
 }
 
 enum ProjectType {
   Software
   Hardware
+}
+
+model Project {
+  id                String        @id @default(cuid())
+  title             String
+  description       String
+  problemsSolved    String?
+  requirements      String[]
+  teamLeader        Student       @relation("Leader", fields: [teamLeaderId], references: [userId])
+  teamLeaderId      String
+  teamMembers       Student[]     @relation("TeamMember")
+  mentors           Teacher[]     @relation("Mentors")
+  teacherAssistants Teacher[]     @relation("TA")
+  problemStatement  String?
+  githubLink        String?
+  technologiesUsed  String[]
+  status            ProjectStatus @default(PENDING_APPROVAL)
+  projectType       ProjectType   @default(Software)
+  dateCreated       DateTime      @default(now())
+  dateUpdated       DateTime      @default(now()) @updatedAt
 }

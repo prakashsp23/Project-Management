@@ -8,9 +8,14 @@ import { getProjectById } from "./api/routes/project/getProjectById";
 import {
   updateProject,
   updateProjectMentors,
+  updateProjectStatus,
+  updateProjectTAs,
   updateProjectTeamMembers,
 } from "./api/routes/project/updateProject";
 import { getProjectByStudentUserId } from "./api/routes/project/getProjectsByStudentId";
+import { registerTeacher } from "./api/routes/teachers/auth/register";
+import { loginTeacher } from "./api/routes/teachers/auth/login";
+import { logoutTeacher } from "./api/routes/teachers/auth/logout";
 
 const API = "";
 
@@ -20,11 +25,18 @@ export const endpoints = async (app: express.Application) => {
   app.use(API, loginStudent);
   app.use(API, logoutStudent);
 
+  // Teachers
+  app.use(API, registerTeacher);
+  app.use(API, loginTeacher);
+  app.use(API, logoutTeacher);
+
   // Project
   app.use(API, createProject);
   app.use(API, updateProject);
+  app.use(API, updateProjectStatus);
   app.use(API, updateProjectTeamMembers);
   app.use(API, updateProjectMentors);
+  app.use(API, updateProjectTAs);
 
   app.use(API, getAllProjects);
   app.use(API, getProjectById);

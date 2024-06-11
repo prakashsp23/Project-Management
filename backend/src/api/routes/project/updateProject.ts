@@ -1,7 +1,11 @@
 import express, { NextFunction, Request, Response } from "express";
 import { PrismaClient, ProjectType } from "@prisma/client";
 import expressAsyncHandler from "express-async-handler";
-import { authenticateToken } from "../../_shared/middleware/verifyToken";
+import {
+  authenticateSPTeacher,
+  authenticateTeacher,
+  authenticateToken,
+} from "../../_shared/middleware/verifyToken";
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -10,8 +14,10 @@ interface ProjectUpdateData {
   title?: string;
   description?: string;
   githubLink?: string | null;
+  requirements?: string[];
   projectType?: ProjectType;
   problemStatement?: string | null;
+  technologiesUsed?: string[];
 }
 
 export const updateProject = router.put(
@@ -25,7 +31,9 @@ export const updateProject = router.put(
         description,
         githubLink,
         projectType,
+        requirements,
         problemStatement,
+        technologiesUsed,
       }: ProjectUpdateData = req.body;
 
       // Fetch the project from the database by ID
@@ -48,7 +56,9 @@ export const updateProject = router.put(
           description: description || project.description,
           githubLink: githubLink || project.githubLink,
           projectType: projectType || project.projectType,
+          requirements: requirements || project.requirements,
           problemStatement: problemStatement || project.problemStatement,
+          technologiesUsed: technologiesUsed || project.technologiesUsed,
         },
         include: {
           mentors: true,
@@ -64,6 +74,35 @@ export const updateProject = router.put(
       res.status(500).json({ error: "Internal server error" });
     }
   }
+);
+
+export const updateProjectStatus = router.patch(
+  "/projects/:id/status",
+  authenticateTeacher,
+  expressAsyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    // Fetch the project from the database by ID
+    let project = await prisma.project.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!project) throw new Error("Project not found.");
+    // Update the project status
+    project = await prisma.project.update({
+      where: { id },
+      data: {
+        status,
+      },
+    });
+
+    res.status(200).json({
+      project,
+    });
+  })
 );
 
 export const updateProjectTeamMembers = router.put(
@@ -111,10 +150,15 @@ export const updateProjectTeamMembers = router.put(
 
 export const updateProjectMentors = router.put(
   "/projects/:id/mentors",
-  authenticateToken,
+  authenticateTeacher,
   expressAsyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
     const { mentors } = req.body;
+
+    const formattedMentors = mentors.map((memberId: string) => ({
+      userId: memberId,
+    }));
+
     // Fetch the project from the database by ID
     let project = await prisma.project.findUnique({
       where: {
@@ -132,11 +176,53 @@ export const updateProjectMentors = router.put(
       where: { id },
       data: {
         mentors: {
-          set: mentors, // Use 'set' to replace all existing mentors
+          set: formattedMentors,
         },
       },
       include: {
         mentors: true,
+      },
+    });
+
+    res.status(200).json({
+      project,
+    });
+  })
+);
+
+export const updateProjectTAs = router.put(
+  "/projects/:id/teacher-assistants",
+  authenticateSPTeacher,
+  expressAsyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { teacherAssistants } = req.body;
+
+    const formattedTAs = teacherAssistants.map((memberId: string) => ({
+      userId: memberId,
+    }));
+
+    // Fetch the project from the database by ID
+    let project = await prisma.project.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        teacherAssistants: true,
+      },
+    });
+
+    if (!project) throw new Error("Project not found.");
+
+    // Update the teaching assistants for the project
+    project = await prisma.project.update({
+      where: { id },
+      data: {
+        teacherAssistants: {
+          set: formattedTAs,
+        },
+      },
+      include: {
+        teacherAssistants: true,
       },
     });
 
