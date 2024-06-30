@@ -5,7 +5,9 @@ import { CardContent, CardHeader, Card } from "@/components/ui/card"
 import Image from "next/image"
 import { SheetDemo } from "./profileupdate"
 import { ChangeEvent, useState } from "react"
+import { useSelector } from "react-redux"
 export default function ProfileDetails() {
+    const { userInfo } = useSelector((state: any) => state.auth);
     const [imageSrc, setImageSrc] = useState<string>("https://github.com/shadcn.png");
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -48,19 +50,19 @@ export default function ProfileDetails() {
                                             <Label className="w-40" htmlFor="name">
                                                 Name
                                             </Label>
-                                            <div className="flex-1">Ryuk</div>
+                                            <div className="flex-1">{userInfo.profile.firstName} {userInfo.profile.lastName}</div>
                                         </div>
                                         <div className="flex items-center gap-4">
                                             <Label className="w-40" htmlFor="username">
                                                 Username
                                             </Label>
-                                            <div className="flex-1">Ryuk69</div>
+                                            <div className="flex-1">{userInfo.username}</div>
                                         </div>
                                         <div className="flex items-center gap-4">
                                             <Label className="w-40" htmlFor="email">
                                                 Email Address
                                             </Label>
-                                            <div className="flex-1">ryuk@example.com</div>
+                                            <div className="flex-1">{userInfo.email}</div>
                                         </div>
                                     </div>
                                 </CardContent>
@@ -77,25 +79,25 @@ export default function ProfileDetails() {
                                         <Label className="w-40" htmlFor="urn">
                                             University Roll Number
                                         </Label>
-                                        <div className="flex-1">123456</div>
+                                        <div className="flex-1">{userInfo.profile.URN}</div>
                                     </div>
                                     <div className="flex items-center gap-4">
                                         <Label className="w-40" htmlFor="batch">
                                             Batch
                                         </Label>
-                                        <div className="flex-1">2010</div>
+                                        <div className="flex-1">{userInfo.profile.batch}</div>
                                     </div>
                                     <div className="flex items-center gap-4">
                                         <Label className="w-40" htmlFor="semester">
                                             Semester
                                         </Label>
-                                        <div className="flex-1">5th</div>
+                                        <div className="flex-1">{userInfo.profile.sem}</div>
                                     </div>
                                     <div className="flex items-center gap-4">
                                         <Label className="w-40" htmlFor="branch">
                                             Branch
                                         </Label>
-                                        <div className="flex-1">Chemistry</div>
+                                        <div className="flex-1">{userInfo.profile.branch}</div>
                                     </div>
                                 </CardContent>
                             </div>
