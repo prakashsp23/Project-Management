@@ -6,6 +6,6 @@ const baseQuery = fetchBaseQuery({ baseUrl: "/api" });
 
 export const apiSlice = createApi({
   baseQuery,
-  tagTypes: ["Student", "Projects"],
+  tagTypes: ["Student", "Projects","Teacher"],
   endpoints: (builder) => ({}),
 });

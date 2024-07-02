@@ -32,10 +32,10 @@ export function HeroAuth() {
             </h1>
             <div className="flex justify-center space-x-4 mt-4">
                 <Button variant="neubutton" size="lg" className="rounded-none bg-[#6964f1]" asChild>
-                    <Link href="/newsignin">Student</Link>
+                    <Link href="/student">Student</Link>
                 </Button>
                 <Button variant="neubutton" size="lg" className="rounded-none bg-[#a456f7] "  asChild>
-                    <Link href="/newsignin">Teacher</Link>
+                    <Link href="/teacher">Teacher</Link>
                 </Button>
             </div>
         </motion.div>

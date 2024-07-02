@@ -75,8 +75,8 @@ export function ProfileDropdown() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                <Avatar className="rounded-full h-10 w-10">
+                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn"  />
                     <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>

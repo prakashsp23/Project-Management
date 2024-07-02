@@ -1,14 +1,13 @@
-"use client";
 import { useState, useEffect, SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
-import { useLoginMutation } from "@/redux/slices/studentApiSlice";
+import { usePathname, useRouter } from "next/navigation";
+import { useStudentLoginMutation,useTeacherLoginMutation } from "@/redux/slices/studentApiSlice";
 import { setCredentials, setProjects } from "@/redux/slices/authSlice";
+import { useGetAllProjectMutation } from "@/redux/slices/projectsApiSlice";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -16,43 +15,48 @@ import {
 import { Input } from "@/components/ui/newinput";
 import { Label } from "@/components/ui/label";
 import { toast } from "react-toastify";
-import { useGetAllProjectMutation } from "@/redux/slices/projectsApiSlice";
 
 export default function Signin() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
   const router = useRouter();
   const dispatch = useDispatch();
-
-  const [login, { isLoading }] = useLoginMutation();
-  const [getAllProjects, { isLoading: isProjectsLoading }] =
-    useGetAllProjectMutation();
-
   const { userInfo } = useSelector((state: any) => state.auth);
-
+  const [loginStudent, { isLoading: isLoadingStudent }] = useStudentLoginMutation();
+  const [loginTeacher, { isLoading: isLoadingTeacher }] = useTeacherLoginMutation();
+  const [getAllProjects, { isLoading: isProjectsLoading }] = useGetAllProjectMutation();
+  const pathname = usePathname();
+  const isTeacherRoute = pathname === '/teacher';
+  const isStudentRoute = pathname === '/student';
   const handleSignIn = async (e: SyntheticEvent) => {
     e.preventDefault();
     try {
       console.log(username, password);
-      const res = await login({ username, password }).unwrap();
-      const ress: any = await getAllProjects({
-        ...userInfo?.userId,
-      }).unwrap();
+      if(isStudentRoute) {
+        const res = await loginStudent({ username, password, userType: "student" }).unwrap();
+         const ress: any = await getAllProjects({
+           ...userInfo?.userId,
+        }).unwrap();
       dispatch(setProjects(ress.projects));
-      dispatch(setCredentials({ ...res.student }));
-      console.log("LOGGED IN");
+      dispatch(setCredentials({ ...res.student, userType: "student" }));
+      console.log("STUDENT LOGGED IN");
+      }else if(isTeacherRoute){
+        const res = await loginTeacher({ username, password, userType: "teacher" }).unwrap();
+      // const ress: any = await getAllProjects().unwrap();
+      // dispatch(setProjects(ress.projects));
+      dispatch(setCredentials({ ...res.teacher, userType: "teacher" })); 
+      console.log("TEACHER LOGGED IN");
+      }
+      
     } catch (error: any) {
       toast.error(error?.data?.message || error.error);
     }
   };
-
   useEffect(() => {
     if (userInfo) {
       router.push("/");
     }
   }, [router, userInfo]);
-
   return (
     <Card>
       <CardHeader className="space-y-1 items-center">

@@ -59,16 +59,6 @@ function MyComponent() {
         ease: [0.4, 0.0, 0.2, 1],
       }}
     >
-      {/* <TracingBeam className="px-6" >
-      <SparklesBg>
-        <InsideSparkle />
-      </SparklesBg>
-      <SparklesPreview><h1 className="text-6xl font-bold text-center relative z-40 bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-2">Projects</h1></SparklesPreview>
-      <MultipleCardsAnimated />
-      </TracingBeam> */}
-      {/* <SparklesBg>
-        <InsideSparkle />
-      </SparklesBg> */}
       <HeroHighlight>
         <ProjectCardSection />
         <div className="my-8">
@@ -81,7 +71,6 @@ function MyComponent() {
         <MultipleCardsAnimated projects={isProjectsLoading ? [] : projects} />
       </HeroHighlight>
 
-      {/* <BackgroundCellAnimation><MultipleCardsAnimated /></BackgroundCellAnimation> */}
     </motion.div>
   );
 }

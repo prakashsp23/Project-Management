@@ -25,11 +25,17 @@ import {
 import { Input } from "@/components/ui/input"
 import * as React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
-import { toast } from '@/components/ui/use-toast';
+// import { toast } from '@/components/ui/use-toast';
 import { useToast } from "@/components/ui/use-toast"
 import Link from "next/link"
 import MultipleSelector, { Option } from "./ui/multiple-dropdown-selector"
 import { LoadingButton } from "./ui/loading-button"
+import { useRouter } from "next/navigation"
+import { useDispatch, useSelector } from "react-redux"
+import { useCreateProjectMutation } from "@/redux/slices/projectsApiSlice"
+import { toast } from "sonner"
+import { setProjects } from "@/redux/slices/authSlice"
+
 const OPTIONS: Option[] = [
     { label: 'nextjs', value: 'Nextjs' },
     { label: 'React', value: 'react' },
@@ -49,7 +55,7 @@ const optionSchema = z.object({
     // disable: z.boolean().optional(),
 });
 const formSchema = z.object({
-    projectName: z.string().min(2, {
+    title: z.string().min(2, {
         message: "Project name must be at least 2 characters.",
     }),
     description: z.string().refine(value => {
@@ -64,32 +70,61 @@ const formSchema = z.object({
     }, {
         message: "Problem statement must be at least 15 words."
     }),
-    technologies: z.array(optionSchema).min(1),
-    github: z.string().url(),
-    
-    typeOfProject: z.any(),
-})
+    technologiesUsed: z.array(optionSchema).min(1),
+    githubLink: z.string().url(),
 
+    projectType: z.any(),
+})
 export default function ProfileForm() {
-    const { toast } = useToast()
-    //new testing
-    //new testing ends here
-    // 1. Define your form.
+    // const { toast } = useToast()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            projectName: "",
+            title: "",
             description: "",
-            github: "",
-            technologies: [],
+            githubLink: "",
+            technologiesUsed: [],
             problemStatement: "",
-            typeOfProject: "",
+            projectType: "",
         },
     })
-    // const [loading, setLoading] = React.useState(false);
-    // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {   
-        console.log(values)
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const { userInfo } = useSelector((state: any) => state.auth);
+    const [createProject, { isLoading: isCreatingProject }] = useCreateProjectMutation();
+    // const [loginTeacher, { isLoading: isLoadingTeacher }] = useTeacherLoginMutation();
+    // function onSubmit(values: z.infer<typeof formSchema>) {
+    //     console.log(values)
+    //     toast.success('Project created successfully!');
+    //     const valuesArray = Object.entries(values).map(([key, value]) => (
+    //         <p key={key}>
+    //             <strong>{key}: </strong>
+    //             {Array.isArray(value) ? value.map((tech) => tech.label).join(', ') : value}
+    //         </p>
+    //     ));
+    //     toast.info(<div>{valuesArray}</div>);
+    //     const res=await createProject(values).unwrap();
+    //     dispatch(setProjects({...res.projects}))
+    // }
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        try {
+            toast.success('Creating project...');
+            
+            const res = await createProject({
+                title: values.title,
+                description: values.description,
+                teamLeaderId: userInfo?.userId,
+                problemStatement: values.problemStatement,
+                technologiesUsed: values.technologiesUsed,
+                githubLink: values.githubLink,
+                projectType: values.projectType,
+            }).unwrap();
+            dispatch(setProjects({ ...res.projects }));
+            toast.success('Project created successfully!');
+        } catch (error) {
+            console.error("Error creating project:", error);
+            toast.error("Failed to create project. Please try again.");
+        }
     }
     return (
         <div className="px-64 py-16 ">
@@ -98,7 +133,7 @@ export default function ProfileForm() {
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         <FormField
                             control={form.control}
-                            name="projectName"
+                            name="title"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-xl">Project Name</FormLabel>
@@ -146,7 +181,7 @@ export default function ProfileForm() {
                         />
                         <FormField
                             control={form.control}
-                            name="technologies"
+                            name="technologiesUsed"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-xl">Technologies</FormLabel>
@@ -170,7 +205,7 @@ export default function ProfileForm() {
                         />
                         <FormField
                             control={form.control}
-                            name="github"
+                            name="githubLink"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-xl">Github Link</FormLabel>
@@ -186,7 +221,7 @@ export default function ProfileForm() {
                         />
                         <FormField
                             control={form.control}
-                            name="typeOfProject"
+                            name="projectType"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-xl">Type Of Project</FormLabel>

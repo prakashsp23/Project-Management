@@ -11,6 +11,7 @@ import { setCredentials } from "@/redux/slices/authSlice";
 import { logout } from "@/redux/slices/authSlice";
 import { toast } from "react-toastify";
 import { ProfileDropdown } from "./profile";
+import { SlideTabs } from "./SlideTabs";
 
 export function NavbarDemo() {
   const userInfo = useSelector((state: any) => state.auth.userInfo);
@@ -58,7 +59,9 @@ function Navbar({ className }: { className?: string }) {
     <div
       className={cn("fixed top-10 inset-x-0 max-w-2xl mx-auto z-50", className)}
     >
-      <Menu setActive={setActive}>
+      <SlideTabs />
+      
+      {/* <Menu setActive={setActive}>
         <Link
           href="/team"
           className={cn(
@@ -121,7 +124,7 @@ function Navbar({ className }: { className?: string }) {
           <ModeToggle />
         </div>
         <ProfileDropdown/>
-      </Menu>
+      </Menu> */}
     </div>
   );
 }

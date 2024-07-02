@@ -28,10 +28,17 @@ export const projectsApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    // updateProject: builder.mutation({
+    //   query: (data) => ({
+    //     url: `${PROJETS_URL}/${data?.id}`,
+    //     method: "Post",
+    //     body: data,
+    //   }),
+    // }),
     updateProject: builder.mutation({
       query: (data) => ({
         url: `${PROJETS_URL}/${data?.id}`,
-        method: "Post",
+        method: "PUT",
         body: data,
       }),
     }),

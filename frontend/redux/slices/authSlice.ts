@@ -1,38 +1,87 @@
-import { createSlice } from "@reduxjs/toolkit";
+// import { createSlice } from "@reduxjs/toolkit";
 
-// Check if window is defined (client-side) before accessing localStorage
-const initialState = {
-  userInfo:
-    typeof window !== "undefined" && localStorage.getItem("userInfo")
-      ? JSON.parse(localStorage.getItem("userInfo")!)
-      : null,
-  projects:
-    typeof window !== "undefined" && localStorage.getItem("projects")
-      ? JSON.parse(localStorage.getItem("projects")!)
-      : null,
+// // Check if window is defined (client-side) before accessing localStorage
+// const initialState = {
+//   userInfo:
+//     typeof window !== "undefined" && localStorage.getItem("userInfo")
+//       ? JSON.parse(localStorage.getItem("userInfo")!)
+//       : null,
+//   projects:
+//     typeof window !== "undefined" && localStorage.getItem("projects")
+//       ? JSON.parse(localStorage.getItem("projects")!)
+//       : null,
+// };
+
+// const authSlice = createSlice({
+//   name: "user",
+//   initialState: {
+//     userInfo: null,
+//     userType: null,
+//   },
+//   reducers: {
+//     setCredentials: (state, action) => {
+//       state.userInfo = action.payload;
+//       state.userType = action.payload.userType;
+//       // Ensure localStorage is available before using it
+//       if (typeof window !== "undefined") {
+//         localStorage.setItem("userInfo", JSON.stringify(action.payload));
+//       }
+//     },
+//     setProjects: (state, action) => {
+//       state.projects = action.payload;
+//       if (typeof window !== "undefined") {
+//         localStorage.setItem("projects", JSON.stringify(action.payload));
+//       }
+//     },
+//     logout: (state, action) => {
+//       state.userInfo = null;
+//       state.projects = null;
+//       // Ensure localStorage is available before using it
+//       if (typeof window !== "undefined") {
+//         localStorage.removeItem("userInfo");
+//         localStorage.removeItem("projects");
+//       }
+//     },
+//   },
+// });
+
+// export const { setCredentials, setProjects, logout } = authSlice.actions;
+
+// export default authSlice.reducer;
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+interface AuthState {
+  userInfo: any; // Define the type of userInfo as per your data structure
+  projects: any; // Define the type of projects as per your data structure
+  userType: string | null;
+}
+
+const initialState: AuthState = {
+  userInfo: null,
+  projects: null,
+  userType: null,
 };
 
 const authSlice = createSlice({
-  name: "user",
+  name: "auth",
   initialState,
   reducers: {
-    setCredentials: (state, action) => {
+    setCredentials: (state, action: PayloadAction<AuthState["userInfo"]>) => {
       state.userInfo = action.payload;
-      // Ensure localStorage is available before using it
+      state.userType = action.payload.userType;
       if (typeof window !== "undefined") {
         localStorage.setItem("userInfo", JSON.stringify(action.payload));
       }
     },
-    setProjects: (state, action) => {
+    setProjects: (state, action: PayloadAction<AuthState["projects"]>) => {
       state.projects = action.payload;
       if (typeof window !== "undefined") {
         localStorage.setItem("projects", JSON.stringify(action.payload));
       }
     },
-    logout: (state, action) => {
+    logout: (state) => {
       state.userInfo = null;
       state.projects = null;
-      // Ensure localStorage is available before using it
       if (typeof window !== "undefined") {
         localStorage.removeItem("userInfo");
         localStorage.removeItem("projects");

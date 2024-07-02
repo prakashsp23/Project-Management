@@ -1,48 +1,53 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect, SyntheticEvent } from "react";
 import { Label } from "../ui/newlabel";
 import { Input } from "../ui/newinput";
 import { cn } from "@/lib/utils";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
-import { useState, useEffect, SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRegisterMutation } from "@/redux/slices/studentApiSlice";
+import {  useStudentRegisterMutation, useTeacherRegisterMutation } from "@/redux/slices/studentApiSlice";
 import { toast } from "react-toastify";
 import { setCredentials } from "@/redux/slices/authSlice";
-import { useRouter } from "next/navigation";
-// import {
-//   IconBrandGithub,
-//   IconBrandGoogle,
-//   IconBrandOnlyfans,
-// } from "@tabler/icons-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
 
 export default function Signup() {
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
     const [username, setUsername] = useState<string>("");
+    const [role, setRole] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
     const router = useRouter();
     const dispatch = useDispatch();
     const { userInfo } = useSelector((state: any) => state.auth);
-    const [register, { isLoading }] = useRegisterMutation();
-    
-    const handleRegister = async(e: SyntheticEvent) => {
+    const [registerStudent, { isLoading: isLoadingStudent }] = useStudentRegisterMutation();
+    const [registerTeacher, { isLoading: isLoadingTeacher }] = useTeacherRegisterMutation();
+    const pathname = usePathname();
+    const isTeacherRoute = pathname === '/teacher';
+    const isStudentRoute = pathname === '/student';
+    const handleRegister = async (e: SyntheticEvent) => {
         e.preventDefault();
-        if(password !== confirmPassword){
-            toast.error("Passwords do not match");
-        }else{
-            try {
-                console.log(username, password);
-                const res = await register({email,firstName,lastName, username, password }).unwrap();
-                dispatch(setCredentials({ ...res.student }));
-                console.log("Regitered successfully");
-            } catch (error:any) {
-                toast.error(error?.data?.message || error.error);
+        try {
+            console.log(email, firstName, lastName,role, username, password);
+            if (isStudentRoute) {
+                const res = await registerStudent({ email, firstName, lastName, username, password,userType: "student" }).unwrap();
+                //  const ress: any = await getAllProjects({
+                //   ...userInfo?.userId,
+                // }).unwrap();
+                // dispatch(setProjects(ress.projects));
+                dispatch(setCredentials({ ...res.student, userType: "student" }));
+                console.log("STUDENT REGISTERED");
+                router.push("/");
+            } else if (isTeacherRoute) {
+                const res = await registerTeacher({ email, firstName, lastName, role, username, password, userType: "teacher" }).unwrap();
+                dispatch(setCredentials({ ...res.teacher, userType: "teacher" }));
+                console.log("TEACHER REGISTERED");
+                router.push("/");
             }
+        } catch (error: any) {
+            toast.error(error?.data?.message || error.error);
         }
-        // console.log("Form submitted");
     };
     useEffect(() => {
         if (userInfo) {
@@ -51,6 +56,7 @@ export default function Signup() {
     }, [router, userInfo]);
     return (
         <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
+
             <h2 className="font-bold text-xl ">
                 Create an account
             </h2>
@@ -68,20 +74,6 @@ export default function Signup() {
                     }} />
                 </LabelInputContainer>
             </div>
-            {/* <div className="my-4">
-                    <LabelInputContainer>
-                        <Label htmlFor="lastname">Profession</Label>
-                        <Select >
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select Your Profession" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="teacher">Teacher</SelectItem>
-                            <SelectItem value="student">Student</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    </LabelInputContainer>
-                    </div> */}
             <LabelInputContainer className="mb-4">
                 <Label htmlFor="username">Username</Label>
                 <Input
@@ -94,6 +86,21 @@ export default function Signup() {
                     }}
                 />
             </LabelInputContainer>
+            {isTeacherRoute && (
+                <LabelInputContainer className="mb-4">
+                    <Label htmlFor="role">Role</Label>
+                    <Select onValueChange={(value: string) => setRole(value)}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select your role as a teacher" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="ADMIN">Admin</SelectItem>
+                            <SelectItem value="REGULAR">Regular</SelectItem>
+                            <SelectItem value="SUPER_ADMIN">SuperAdmin</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </LabelInputContainer>
+            )}
             <LabelInputContainer className="mb-4">
                 <Label htmlFor="email">Email</Label>
                 <Input id="email" placeholder="projectmayhem@fc.com" type="email" value={email} onChange={(e: any) => {
