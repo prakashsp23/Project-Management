@@ -30,7 +30,7 @@
 import { apiSlice } from "./apiSlice";
 const STUDENT_URL = "/student";
 const TEACHER_URL = "/teacher";
-
+const USERS_URL = "/student" || "/teacher";
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     studentLogin: builder.mutation({
@@ -63,7 +63,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
     logout: builder.mutation({
       query: () => ({
-        url: `${STUDENT_URL}/logout`, // Adjust based on the logout endpoint
+        url: `${USERS_URL}/logout`, // Adjust based on the logout endpoint
         method: "POST",
       }),
     }),

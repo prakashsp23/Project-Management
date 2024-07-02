@@ -23,7 +23,7 @@ export default function Home() {
         <Button
       onClick={() => {
         toast("Event has been created",{
-          description: "Friday, july 2, 2024 at 5:57 PM",
+          description: "Friday, july , 2024 at 5:57 PM",
         })
       }}
     >

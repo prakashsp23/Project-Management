@@ -34,10 +34,10 @@ export default function Signin() {
       console.log(username, password);
       if(isStudentRoute) {
         const res = await loginStudent({ username, password, userType: "student" }).unwrap();
-         const ress: any = await getAllProjects({
-           ...userInfo?.userId,
-        }).unwrap();
-      dispatch(setProjects(ress.projects));
+        //  const ress: any = await getAllProjects({
+         //   ...userInfo?.userId,
+        // }).unwrap();
+      // dispatch(setProjects(ress.projects));
       dispatch(setCredentials({ ...res.student, userType: "student" }));
       console.log("STUDENT LOGGED IN");
       }else if(isTeacherRoute){

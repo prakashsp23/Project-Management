@@ -85,7 +85,7 @@ export function ProfileDropdown() {
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                 <Link
-                        href={userInfo ? "/profile" : "/newsignin"}
+                        href={userInfo ? "/profile" : "/"}
                         // className={cn(
                         //     "transition-colors hover:text-foreground/100 px-4  flex items-center hover:transition hover:border-b-2",
                         //     pathname?.startsWith("/newsignin")
@@ -102,7 +102,7 @@ export function ProfileDropdown() {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <Link
-                        href={userInfo ? "/" : "/newsignin"}
+                        href={userInfo && '/'}
                         // className={cn(
                         //     "transition-colors hover:text-foreground/100 px-4  flex items-center hover:transition hover:border-b-2",
                         //     pathname?.startsWith("/newsignin")
