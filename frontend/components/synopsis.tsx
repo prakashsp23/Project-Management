@@ -16,26 +16,19 @@ import {
 } from "@/components/ui/form"
 import {
     Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import * as React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
-// import { toast } from '@/components/ui/use-toast';
-import { useToast } from "@/components/ui/use-toast"
-import Link from "next/link"
 import MultipleSelector, { Option } from "./ui/multiple-dropdown-selector"
-import { LoadingButton } from "./ui/loading-button"
 import { useRouter } from "next/navigation"
 import { useDispatch, useSelector } from "react-redux"
 import { useCreateProjectMutation } from "@/redux/slices/projectsApiSlice"
 import { toast } from "sonner"
 import { setProjects } from "@/redux/slices/authSlice"
-
+// import { toast } as toast1 from "react-toastify"  ;
+import { toast as toast1 } from "react-toastify";
+import withAuth from "@/lib/PrivateRoute"
 const OPTIONS: Option[] = [
     { label: 'nextjs', value: 'Nextjs' },
     { label: 'React', value: 'react' },
@@ -75,8 +68,7 @@ const formSchema = z.object({
 
     projectType: z.any(),
 })
-export default function ProfileForm() {
-    // const { toast } = useToast()
+function ProfileForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -90,44 +82,41 @@ export default function ProfileForm() {
     })
     const router = useRouter();
     const dispatch = useDispatch();
-    const { userInfo } = useSelector((state: any) => state.auth);
+    const { userInfo,projects } = useSelector((state: any) => state.auth);
     const [createProject, { isLoading: isCreatingProject }] = useCreateProjectMutation();
-    // const [loginTeacher, { isLoading: isLoadingTeacher }] = useTeacherLoginMutation();
-    // function onSubmit(values: z.infer<typeof formSchema>) {
-    //     console.log(values)
-    //     toast.success('Project created successfully!');
-    //     const valuesArray = Object.entries(values).map(([key, value]) => (
-    //         <p key={key}>
-    //             <strong>{key}: </strong>
-    //             {Array.isArray(value) ? value.map((tech) => tech.label).join(', ') : value}
-    //         </p>
-    //     ));
-    //     toast.info(<div>{valuesArray}</div>);
-    //     const res=await createProject(values).unwrap();
-    //     dispatch(setProjects({...res.projects}))
-    // }
+    console.log(projects);
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
+            console.log('Form values:', values);
+            console.log(projects);
             toast.success('Creating project...');
-            
             const res = await createProject({
                 title: values.title,
                 description: values.description,
                 teamLeaderId: userInfo?.userId,
                 problemStatement: values.problemStatement,
-                technologiesUsed: values.technologiesUsed,
+                technologiesUsed: values.technologiesUsed.map(tech => tech.value),
                 githubLink: values.githubLink,
                 projectType: values.projectType,
             }).unwrap();
+            console.log(projects);
+            console.log('API response:', res);
             dispatch(setProjects({ ...res.projects }));
+            console.log(projects);
             toast.success('Project created successfully!');
-        } catch (error) {
-            console.error("Error creating project:", error);
-            toast.error("Failed to create project. Please try again.");
+            console.log(projects);
+            // router.push("/projects");
+        } catch (error: any) {
+            console.error('Error creating project:', error);
+            toast.error('Failed to create project. Please try again.');
+            toast1.error(error?.data?.message || error.error);
+            console.log(projects);
         }
     }
+    console.log(projects);
     return (
         <div className="px-64 py-16 ">
+            <h1>{userInfo?.userId}</h1>
             <Card className="px-16 py-8">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -235,8 +224,8 @@ export default function ProfileForm() {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="software">Software</SelectItem>
-                                            <SelectItem value="hardware">Hardware</SelectItem>
+                                            <SelectItem value="Software">Software</SelectItem>
+                                            <SelectItem value="Hardware">Hardware</SelectItem>
                                             <SelectItem value="softwareHardware">Software + Hardware</SelectItem>
                                         </SelectContent>
                                     </Select>
@@ -253,3 +242,4 @@ export default function ProfileForm() {
         </div>
     )
 }
+export default withAuth(ProfileForm);

@@ -79,7 +79,7 @@ import { setCredentials } from "@/redux/slices/authSlice"
 //     // name: "Your name",
 //     // dob: new Date("2023-01-23"),
 // }
-import { useUpdateUserMutation } from "@/redux/slices/studentApiSlice"
+// import { useUpdateUserMutation } from "@/redux/slices/studentApiSlice"
 export function SheetDemo() {
     const { userInfo } = useSelector((state: any) => state.auth);
     const [firstName, setFirstName] = useState<string>(userInfo.profile.firstName || "");
@@ -90,7 +90,7 @@ export function SheetDemo() {
     const [password, setPassword] = useState<string>("");
     const router = useRouter();
     const dispatch = useDispatch();
-    const [updateProfile,{isLoading}] = useUpdateUserMutation();
+    // const [updateProfile,{isLoading}] = useUpdateUserMutation();
     // const form = useForm<AccountFormValues>({
     //     resolver: zodResolver(accountFormSchema),
     //     defaultValues,
@@ -101,23 +101,23 @@ export function SheetDemo() {
         setEmail(userInfo.email);
         setUsername(userInfo.username);
     },[userInfo.profile.setFirstName,userInfo.profile.setLastName,userInfo.setUsername,userInfo.setEmail]);
-    const handleUpdate = async(e: SyntheticEvent) => {
-        e.preventDefault();
-        if(userInfo.password !== currentPassword){
-            toast.error("Passwords do not match");
-        }else{
-            try {
-                console.log(username, password);
-                const res = await updateProfile({
-                    _id: userInfo._id,
-                    email,firstName,lastName, username }).unwrap();
-                dispatch(setCredentials({ ...res.student }));
-                console.log("Profile updated successfully");
-            } catch (error:any) {
-                toast.error(error?.data?.message || error.error);
-            }
-        }
-    };
+    // const handleUpdate = async(e: SyntheticEvent) => {
+    //     e.preventDefault();
+    //     if(userInfo.password !== currentPassword){
+    //         toast.error("Passwords do not match");
+    //     }else{
+    //         try {
+    //             console.log(username, password);
+    //             const res = await updateProfile({
+    //                 _id: userInfo._id,
+    //                 email,firstName,lastName, username }).unwrap();
+    //             dispatch(setCredentials({ ...res.student }));
+    //             console.log("Profile updated successfully");
+    //         } catch (error:any) {
+    //             toast.error(error?.data?.message || error.error);
+    //         }
+    //     }
+    // };
     return (
         <Sheet>
             <SheetTrigger asChild>

@@ -102,7 +102,7 @@ export default function ProfileDetails() {
                                 </CardContent>
                             </div>
                             <div className="flex justify-center">
-                                <SheetDemo />
+                                {/* <SheetDemo /> */}
                             </div>
                         </div>
                     </div>

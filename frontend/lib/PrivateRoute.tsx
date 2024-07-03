@@ -10,7 +10,7 @@ const withAuth = (WrappedComponent: any) => {
 
     useEffect(() => {
       if (!userInfo) {
-        router.push("/newsignin");
+        router.push("/");
       }
     }, [router, userInfo]);
 

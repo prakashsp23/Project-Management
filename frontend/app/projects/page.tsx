@@ -12,38 +12,37 @@ import { useGetAllProjectMutation } from "@/redux/slices/projectsApiSlice";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import withAuth from "@/lib/PrivateRoute";
+interface User {
+  userId: string;
+}
+
+interface Project {
+  teamLeaderId: string;
+  teamMembers: User[];
+  dateCreated: string;
+}
 
 function MyComponent() {
   const { projects, userInfo } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
 
-  const [getAllProjects, { isLoading: isProjectsLoading }] =
-    useGetAllProjectMutation();
+  // Check if projects is an array before filtering
+  const filteredProjects = Array.isArray(projects)
+    ? projects.filter((project: Project) =>
+        project.teamLeaderId === userInfo.userId ||
+        project.teamMembers.some((member: User) => member.userId === userInfo.userId)
+      )
+    : [];
 
-  const getProjects = async () => {
-    try {
-      console.log("getting all the projects of the student");
-      const res: any = await getAllProjects({
-        ...userInfo?.userId,
-      }).unwrap();
-      dispatch(setProjects(res.projects));
-    } catch (error: any) {
-      console.log(error);
-      toast.error(error?.data?.message || error.error);
-    }
-  };
-  useEffect(() => {
-    getProjects();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userInfo]);
-
-  // useEffect(() => {
-  //   console.log(projects);
-  // }, [isProjectsLoading]);
+  // Sort the filtered projects
+  const sortedProjects = filteredProjects.sort((a: Project, b: Project) =>
+    new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime()
+  );
 
   const InsideSparkle = () => {
     return <ProjectCardSection />;
   };
+
   return (
     <motion.div
       initial={{
@@ -61,16 +60,19 @@ function MyComponent() {
     >
       <HeroHighlight>
         <ProjectCardSection />
-        <div className="my-8">
-          <SparklesPreview>
-            <h1 className="text-6xl font-bold text-center relative bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-2">
-              Projects
-            </h1>
-          </SparklesPreview>
-        </div>
-        <MultipleCardsAnimated projects={isProjectsLoading ? [] : projects} />
+        {sortedProjects.length > 0 && (
+          <div>
+            <div className="my-8">
+              <SparklesPreview>
+                <h1 className="text-6xl font-bold text-center relative bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-2">
+                  Projects
+                </h1>
+              </SparklesPreview>
+            </div>
+            <MultipleCardsAnimated projects={sortedProjects} />
+          </div>
+        )}
       </HeroHighlight>
-
     </motion.div>
   );
 }

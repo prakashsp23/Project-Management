@@ -30,7 +30,9 @@ import { BackgroundBeams } from "@/components/ui/background-beams";
 import ProjectHeading from "@/components/ui/project-heading";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { CirclePlus } from "lucide-react";
 import NewProjectCard from "@/components/ui/add-new-project-sec";
+import Link from "next/link";
 export default function ProjectCardSection() {
   return (
     <div className="mb-24 mt-4">
@@ -48,7 +50,15 @@ export default function ProjectCardSection() {
                 <Skeleton className="h-[70px] w-[150px] rounded-xl" />
                 <div className="space-y-2">
                   <div className="flex justify-center items-center font-semibold">Add New Project</div>
-                  <NewProjectCard />
+                  {/* <NewProjectCard /> */}
+                  <div className="flex justify-center items-center">
+                  <Link href="/synopsis">
+                  <Button variant="outline" className="">
+                  <CirclePlus />  
+                  </Button>
+                  </Link>
+                  </div>
+                  
                   <Skeleton className="h-4 w-[150px]" />
                   {/* <Skeleton className="h-[50px] w-[150px] rounded-xl" /> */}
                   <div className="grid grid-cols-3 px-">

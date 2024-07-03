@@ -21,13 +21,29 @@ export const projectsApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    // getProjectsByStudentId: builder.mutation({
+    //   query: (data) => ({
+    //     url: `${PROJETS_URL}/student/${data?.id}`,
+    //     method: "GET",
+    //     params: {
+    //       teamLeaderId: data?.id, // Filter projects by team leader ID
+    //     },
+    //   }),
+    // }),
     createProject: builder.mutation({
       query: (data) => ({
         url: `${PROJETS_URL}`,
-        method: "Post",
+        method: "POST",
         body: data,
       }),
     }),
+    // createProject: builder.mutation({
+    //   query: (data) => ({
+    //     url: `${PROJETS_URL}`,
+    //     method: "POST",
+    //     body: data,
+    //   }),
+    // }),
     // updateProject: builder.mutation({
     //   query: (data) => ({
     //     url: `${PROJETS_URL}/${data?.id}`,

@@ -4,15 +4,6 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ModeToggle } from "./ui/toggle-mode";
 import { ProfileDropdown } from "./profile";
-
-export const SlideTabsExample = () => {
-  return (
-    <div className="bg-neutral-100 py-20">
-      <SlideTabs />
-    </div>
-  );
-};
-
 export const SlideTabs = () => {
   const [position, setPosition] = useState({
     left: 0,
@@ -21,8 +12,6 @@ export const SlideTabs = () => {
   });
 
   const [selectedTab, setSelectedTab] = useState("");
-
-  const tabs = ["projects", "team", "chat"];
 
   const handleMouseLeave = () => {
     const tabElement = document.querySelector(`[data-tab="${selectedTab}"]`);
@@ -41,30 +30,59 @@ export const SlideTabs = () => {
       onMouseLeave={handleMouseLeave}
       className="relative mx-auto flex w-fit rounded-full border-2 border-black dark:border-white bg-white dark:bg-black p-1"
     >
-      {tabs.map((tab) => (
-        <Link href={`/${tab}`} key={tab}>
+      <Link href="/">
         <Tab
-        // key={tab}
-        setPosition={setPosition}
-        isSelected={selectedTab === tab}
-        onClick={() => setSelectedTab(tab)}
-        tabName={tab}
-      >
-        {tab}
-      </Tab></Link>
-        
-      ))}
+          setPosition={setPosition}
+          isSelected={selectedTab === "home"}
+          onClick={() => setSelectedTab("home")}
+          tabName="home"
+        >
+          Home
+        </Tab>
+      </Link>
+
+      <Link href="/projects">
+        <Tab
+          setPosition={setPosition}
+          isSelected={selectedTab === "projects"}
+          onClick={() => setSelectedTab("projects")}
+          tabName="projects"
+        >
+          Projects
+        </Tab>
+      </Link>
+
+      <Link href="/team">
+        <Tab
+          setPosition={setPosition}
+          isSelected={selectedTab === "team"}
+          onClick={() => setSelectedTab("team")}
+          tabName="team"
+        >
+          Team
+        </Tab>
+      </Link>
+
+      <Link href="/chat">
+        <Tab
+          setPosition={setPosition}
+          isSelected={selectedTab === "chat"}
+          onClick={() => setSelectedTab("chat")}
+          tabName="chat"
+        >
+          Chat
+        </Tab>
+      </Link>
 
       <Cursor position={position} />
-      <div className="flex items-center justify-center gap-4 pl-4 pr-4">
-          <ModeToggle />
-          <ProfileDropdown/>
-        </div>
-        
+      <div className="flex items-center justify-center gap-4 pl-2 ">
+        <ModeToggle />
+        <ProfileDropdown />
+      </div>
+
     </ul>
   );
 };
-
 const Tab = ({ children, setPosition, isSelected, onClick, tabName }) => {
   const ref = useRef(null);
 
