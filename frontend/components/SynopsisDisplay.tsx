@@ -34,6 +34,7 @@ function SynopsisDisplay({ data }: SynopsisDisplayProps) {
                         <th className="border  border-black px-4 py-2">URN</th>
                         <th className="border border-black px-4 py-2">CRN</th>
                         <th className="border border-black px-4 py-2">Name</th>
+                        <th className="border border-black px-4 py-2">Signature</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +44,7 @@ function SynopsisDisplay({ data }: SynopsisDisplayProps) {
                             <td className="border border-black px-4 py-2">{student.urn}</td>
                             <td className="border border-black px-4 py-2">{student.crn}</td>
                             <td className="border border-black px-4 py-2">{student.name}</td>
+                            <td className="border border-black px-4 py-2"></td>
                         </tr>
                     ))}
                 </tbody>

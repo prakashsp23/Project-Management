@@ -208,7 +208,9 @@ export default function TeamTop({ projectDetails }: any) {
                 </Link>
 
             </div>
+            
           </Card>
+          
           <Card className="w-[30rem]">
             <CardHeader>
               <CardTitle>Tech Stack</CardTitle>
@@ -225,6 +227,31 @@ export default function TeamTop({ projectDetails }: any) {
                 )}
               </ul>
             </CardContent>
+          </Card>
+          
+        </div>
+        <div className="flex flex-row col-span-4  gap-6">
+        <Card className="w-full max-w-md bg-card text-card-foreground p-6 rounded-lg shadow-lg">
+            <div className="space-y-4">
+              <div>
+                <h2 className="font-semibold leading-none tracking-tight">Synopsis</h2>
+                {/* <p className="text-sm text-muted-foreground">Status</p> */}
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  {/* <h3 className="font-semibold leading-none tracking-tight">Commits</h3> */}
+                  <p className="text-sm text-muted-foreground">Status:</p>
+                </div>
+                <div className="flex items-center">
+                  <span className="text-sm">{projectDetails.status}</span>
+                </div>
+              </div>
+              <Link href={`/projects/${projectDetails.id}/synopsis`}>
+                    <Button variant="outline" className="w-full mt-6">
+                      View Synopsis 
+                    </Button>
+                  </Link>
+            </div>
           </Card>
         </div>
       </div>

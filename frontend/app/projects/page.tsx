@@ -25,16 +25,12 @@ interface Project {
 function MyComponent() {
   const { projects, userInfo } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
-
-  // Check if projects is an array before filtering
   const filteredProjects = Array.isArray(projects)
     ? projects.filter((project: Project) =>
         project.teamLeaderId === userInfo.userId ||
         project.teamMembers.some((member: User) => member.userId === userInfo.userId)
       )
     : [];
-
-  // Sort the filtered projects
   const sortedProjects = filteredProjects.sort((a: Project, b: Project) =>
     new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime()
   );

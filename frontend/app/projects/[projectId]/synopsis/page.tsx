@@ -4,20 +4,27 @@ import SynopsisDisplay from '@/components/SynopsisDisplay';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Button } from '@/components/ui/button';
+import { useSelector } from 'react-redux';
+import withAuth from '@/lib/PrivateRoute';
 
-export default function SynopsisPage() {
+function SynopsisPage({params}:any) {
+    const { projects, userInfo } = useSelector((state: any) => state.auth);
+    const projectDetail = projects.find((p: any) => p.id === params.projectId);
+    console.log(projectDetail);
+    // console.log(projectDetail?.technologiesUsed.map((tech: any, index: number) => tech).join(', '));
     const data = {
         students: [
-            { crn: '3001113210123', urn: '4623', name: 'XYSSDA' },
+            { crn: `${projectDetail.teamLeaderId}`, urn: '4623', name: 'XYSSDA' },
             { crn: '3001113210131', urn: '3812', name: 'SDASDWDA' },
             { crn: '3001113210313', urn: '3923', name: 'JOHN DOE' },
         ],
-        projectTitle: "SOLUTION FOR PRISONER'S DILEMMA",
-        projectDescription: "The prisoner's dilemma is a game theory thought experiment that involves two rational agents, each of whom can cooperate for mutual benefit or betray their partner for individual reward. Through this project, we aim to find the optimal solution for the two agents.",
-        typeOfProject: 'Research',
-        softwareRequirement: 'Python, Nextjs/Reactjs, Shadcn, q-learning algorithm',
+        projectTitle: `${projectDetail.title}`,
+        projectDescription: `${projectDetail.description}`,
+        typeOfProject: `${projectDetail.projectType}`,
+        softwareRequirement: `${projectDetail?.technologiesUsed.map((tech: any, index: number) => tech).join(', ')}`,
         hardwareRequirement: '',
     };
+    
 
     const synopsisRef = useRef(null);
 
@@ -54,3 +61,4 @@ export default function SynopsisPage() {
         </div>
     );
 }
+export default withAuth(SynopsisPage);

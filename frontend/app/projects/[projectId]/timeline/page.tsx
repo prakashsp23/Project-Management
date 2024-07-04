@@ -1,4 +1,6 @@
+'use client'
 import { TimelineLayout } from "@/components/timeline-layout";
+import withAuth from "@/lib/PrivateRoute";
 export const timelineData = [
 	{
 		id: 1,
@@ -31,16 +33,17 @@ export interface TimelineElement {
 	date: string;
 	description: string;
 }
-export default function ProjectTimelinePage({params}){
-    console.log(params);
-    return(
-        <div className=" ml-[8rem]">
-            <h1>Project Timeline Page of id {params.projectId} </h1>
-            <div className='flex flex-col justify-center items-center my-16'>
-                {/* {params.projectId} */}
+function ProjectTimelinePage({ params }:any) {
+	console.log(params);
+	return (
+		<div className=" ml-[8rem]">
+			<h1>Project Timeline Page of id {params.projectId} </h1>
+			<div className='flex flex-col justify-center items-center my-16'>
+				{/* {params.projectId} */}
 
 				<TimelineLayout items={timelineData} />
 			</div>
-        </div>
-    )
+		</div>
+	)
 }
+export default withAuth(ProjectTimelinePage);
