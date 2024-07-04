@@ -33,7 +33,8 @@ function SingleCard(project: any) {
         <Icon className="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-black" />
         <Icon className="absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-black" />
         <Link
-          href={`/${project?.data.title.toLowerCase().replace(/\s/g, "-")}`}
+          // href={`/${project?.data.title.toLowerCase().replace(/\s/g, "-")}`}
+          href={`/projects/${project?.data.id}`}
         >
           <Card className="w-[22rem] max-w-sm h-[25rem] relative">
             <CardHeader className="flex flex-row items-center">
