@@ -191,13 +191,13 @@ export const updateProjectMentors = router.put(
 );
 
 export const updateProjectTAs = router.put(
-  "/projects/:id/teacher-assistants",
+  "/projects/:id/class-coordinator",
   authenticateSPTeacher,
   expressAsyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { teacherAssistants } = req.body;
-
-    const formattedTAs = teacherAssistants.map((memberId: string) => ({
+    const { classCoordinator } = req.body;
+    console.log("hellos")
+    const formattedTAs = classCoordinator.map((memberId: string) => ({
       userId: memberId,
     }));
 
@@ -207,7 +207,7 @@ export const updateProjectTAs = router.put(
         id,
       },
       include: {
-        teacherAssistants: true,
+        classCoordinator: true,
       },
     });
 
@@ -217,12 +217,12 @@ export const updateProjectTAs = router.put(
     project = await prisma.project.update({
       where: { id },
       data: {
-        teacherAssistants: {
+        classCoordinator: {
           set: formattedTAs,
         },
       },
       include: {
-        teacherAssistants: true,
+        classCoordinator: true,
       },
     });
 

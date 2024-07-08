@@ -89,11 +89,9 @@ export const authenticateSPTeacher = async (
       });
 
       if (!teacher || teacher.role !== "SUPER_ADMIN") {
-        return res
-          .status(401)
-          .json({
-            error: "Teacher not found Or Teacher does not have permission.",
-          });
+        return res.status(401).json({
+          error: "Teacher not found Or Teacher does not have permission.",
+        });
       }
 
       req.user = teacher;

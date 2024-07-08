@@ -21,6 +21,7 @@ export const getProjectById = router.get(
         include: {
           teamMembers: true,
           mentors: true,
+          classCoordinator: true,
         },
       });
 

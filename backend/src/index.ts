@@ -9,7 +9,7 @@ import {
   errorHandler,
   notFound,
 } from "./api/_shared/middleware/errorMiddleware";
-import { authenticateToken } from "./api/_shared/middleware/verifyToken";
+// import { authenticateToken } from "./api/_shared/middleware/verifyToken";
 
 dotenv.config();
 

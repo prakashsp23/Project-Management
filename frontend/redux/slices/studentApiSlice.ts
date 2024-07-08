@@ -30,7 +30,7 @@
 import { apiSlice } from "./apiSlice";
 const STUDENT_URL = "/student";
 const TEACHER_URL = "/teacher";
-const USERS_URL = "/student" || "/teacher";
+// const USERS_URL = "/student" || "/teacher";
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     studentLogin: builder.mutation({
@@ -61,13 +61,26 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    logout: builder.mutation({
+    studentLogout: builder.mutation({
       query: () => ({
-        url: `${USERS_URL}/logout`, // Adjust based on the logout endpoint
+        url: `${STUDENT_URL}/logout`, // Adjust based on the logout endpoint
+        method: "POST",
+      }),
+    }),
+    teachersLogout: builder.mutation({
+      query: () => ({
+        url: `${TEACHER_URL}/logout`, // Adjust based on the logout endpoint
         method: "POST",
       }),
     }),
   }),
 });
 
-export const { useStudentLoginMutation, useStudentRegisterMutation, useTeacherLoginMutation, useTeacherRegisterMutation, useLogoutMutation } = usersApiSlice;
+export const {
+  useStudentLoginMutation,
+  useStudentRegisterMutation,
+  useTeacherLoginMutation,
+  useTeacherRegisterMutation,
+  useStudentLogoutMutation,
+  useTeachersLogoutMutation,
+} = usersApiSlice;
