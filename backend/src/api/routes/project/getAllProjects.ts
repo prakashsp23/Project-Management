@@ -1,14 +1,17 @@
 import express, { NextFunction, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import expressAsyncHandler from "express-async-handler";
-import { authenticateToken } from "../../_shared/middleware/verifyToken";
+import {
+  authenticateToken,
+  authenticateUser,
+} from "../../_shared/middleware/verifyToken";
 
 const prisma = new PrismaClient();
 const router = express.Router();
 
 export const getAllProjects = router.get(
   "/projects",
-  // authenticateToken,
+  authenticateUser,
   expressAsyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
       // Fetch all projects from the database
@@ -17,6 +20,7 @@ export const getAllProjects = router.get(
           teamMembers: true,
           mentors: true,
           classCoordinator: true,
+          teamLeader: true,
         },
       });
 

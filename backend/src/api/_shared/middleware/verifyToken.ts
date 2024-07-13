@@ -104,3 +104,44 @@ export const authenticateSPTeacher = async (
     return res.status(403).json({ error });
   }
 };
+
+// Middleware function to verify both students and teachers JWT tokens
+export const authenticateUser = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Get the JWT token from the Authorization header
+    let token: string;
+    token = req?.cookies?.jwt;
+    if (token) {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      let user = await prisma.student.findUnique({
+        where: {
+          userId: decoded["userId"],
+        },
+      });
+
+      if (!user) {
+        user = await prisma.teacher.findUnique({
+          where: {
+            userId: decoded["userId"],
+          },
+        });
+
+        if (!user) {
+          return res.status(401).json({ error: "User not found" });
+        }
+      }
+
+      req.user = user;
+      next();
+    } else {
+      // If token is not provided, return a 401 Unauthorized response
+      return res.status(401).json({ error: "Unauthorized: Login required" });
+    }
+  } catch (error) {
+    return res.status(403).json({ error });
+  }
+};

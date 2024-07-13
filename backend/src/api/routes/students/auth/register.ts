@@ -13,7 +13,17 @@ const router = express.Router();
 export const registerStudent = router.post(
   "/student/register",
   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    const { email, username, password, firstName, lastName } = req.body;
+    const {
+      email,
+      username,
+      password,
+      firstName,
+      lastName,
+      urn,
+      crn,
+      semester,
+      graduationDate,
+    } = req.body;
     // Hash the password before storing it in the database
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -40,6 +50,10 @@ export const registerStudent = router.post(
           create: {
             firstName,
             lastName,
+            URN: urn,
+            CRN: crn,
+            semester,
+            graduationDate,
           },
         },
       },
