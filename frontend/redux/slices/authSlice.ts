@@ -54,12 +54,14 @@ interface AuthState {
   userInfo: any; // Define the type of userInfo as per your data structure
   projects: any; // Define the type of projects as per your data structure
   userType: string | null;
+  currentProject: any; // Define the type of currentProjects as per your data structure
 }
 
 const initialState: AuthState = {
   userInfo: null,
   projects: null,
   userType: null,
+  currentProject: null,
 };
 
 const authSlice = createSlice({
@@ -79,6 +81,18 @@ const authSlice = createSlice({
         localStorage.setItem("projects", JSON.stringify(action.payload));
       }
     },
+    // setCurrentProject: (state, action: PayloadAction<AuthState["currentProjects"]>) => {
+    //   state.currentProjects = action.payload;
+    //   if (typeof window !== "undefined") {
+    //     localStorage.setItem("currentProjects", JSON.stringify(action.payload));
+    //   }
+    // },
+    setCurrentProject: (state, action: PayloadAction<AuthState["currentProject"]>) => {
+      state.currentProject = action.payload; // Update property name to match state
+      if (typeof window !== "undefined") {
+        localStorage.setItem("currentProject", JSON.stringify(action.payload));
+      }
+    },
     logout: (state) => {
       state.userInfo = null;
       state.projects = null;
@@ -90,6 +104,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, setProjects, logout } = authSlice.actions;
+export const { setCredentials, setProjects, logout,setCurrentProject } = authSlice.actions;
 
 export default authSlice.reducer;

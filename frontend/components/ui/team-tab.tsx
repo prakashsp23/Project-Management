@@ -9,7 +9,7 @@ import { Chat } from "./chat/chat";
 import React, { useState } from "react";
 import { userData } from "../data";
 
-export default function TeamTab({projectDetails}:any) {
+export default function TeamTab({projectParams}:any) {
   const [selectedUser, setSelectedUser] = React.useState(userData[0]);
   const [isMobile, setIsMobile] = useState(false);
   return (
@@ -22,7 +22,7 @@ export default function TeamTab({projectDetails}:any) {
           </TabsList>
         </div>
         <TabsContent value="project">
-          <TeamTop projectDetails={projectDetails}/>
+          <TeamTop projectParams={projectParams}/>
         </TabsContent>
         <TabsContent value="chat">
           <div className="flex justify-center py-8 pb-10">

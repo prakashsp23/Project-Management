@@ -101,23 +101,23 @@ export function SheetDemo() {
         setEmail(userInfo.email);
         setUsername(userInfo.username);
     },[userInfo.profile.setFirstName,userInfo.profile.setLastName,userInfo.setUsername,userInfo.setEmail]);
-    // const handleUpdate = async(e: SyntheticEvent) => {
-    //     e.preventDefault();
-    //     if(userInfo.password !== currentPassword){
-    //         toast.error("Passwords do not match");
-    //     }else{
-    //         try {
-    //             console.log(username, password);
-    //             const res = await updateProfile({
-    //                 _id: userInfo._id,
-    //                 email,firstName,lastName, username }).unwrap();
-    //             dispatch(setCredentials({ ...res.student }));
-    //             console.log("Profile updated successfully");
-    //         } catch (error:any) {
-    //             toast.error(error?.data?.message || error.error);
-    //         }
-    //     }
-    // };
+    const handleUpdate = async(e: SyntheticEvent) => {
+        e.preventDefault();
+        // if(userInfo.password !== currentPassword){
+        //     toast.error("Passwords do not match");
+        // }else{
+        //     try {
+        //         console.log(username, password);
+        //         const res = await updateProfile({
+        //             _id: userInfo._id,
+        //             email,firstName,lastName, username }).unwrap();
+        //         dispatch(setCredentials({ ...res.student }));
+        //         console.log("Profile updated successfully");
+        //     } catch (error:any) {
+        //         toast.error(error?.data?.message || error.error);
+        //     }
+        // }
+    };
     return (
         <Sheet>
             <SheetTrigger asChild>

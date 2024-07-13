@@ -34,7 +34,6 @@ export default function Signin() {
       console.log(username, password);
       if(isStudentRoute) {
         const res = await loginStudent({ username, password, userType: "student" }).unwrap();
-         
       dispatch(setCredentials({ ...res.student, userType: "student" }));
       console.log("STUDENT LOGGED IN");
       // console.log(userInfo.userId);
@@ -48,8 +47,11 @@ export default function Signin() {
       // dispatch(setProjects(ress.projects));
       dispatch(setCredentials({ ...res.teacher, userType: "teacher" })); 
       console.log("TEACHER LOGGED IN");
+      const ress: any = await getAllProjects({
+        //  ...userInfo?.userId,
+      }).unwrap();
+      dispatch(setProjects(ress.projects));
       }
-      
     } catch (error: any) {
       toast.error(error?.data?.message || error.error);
     }

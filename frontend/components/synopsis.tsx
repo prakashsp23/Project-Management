@@ -110,13 +110,13 @@ function ProfileForm() {
         githubLink: values.githubLink,
         projectType: values.projectType,
       }).unwrap();
-      console.log(projects);
+      console.log (res);
+      const tempProjectid= res.project.id;
       console.log("API response:", res);
       dispatch(setProjects([...projects, res.project]));
       console.log(projects);
       toast.success("Project created successfully!");
-      console.log(projects);
-      // router.push("/projects");
+      router.push(`/projects/${tempProjectid}`);
     } catch (error: any) {
       console.error("Error creating project:", error);
       toast.error("Failed to create project. Please try again.");

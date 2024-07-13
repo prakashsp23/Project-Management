@@ -18,6 +18,7 @@ export default function ProfileDetails() {
         };
         reader.readAsDataURL(file);
     };
+    console.log(userInfo);
     return (
         <div className="flex justify-center items-center m-6">
             <Card className="w-full max-w-3xl">
@@ -102,7 +103,7 @@ export default function ProfileDetails() {
                                 </CardContent>
                             </div>
                             <div className="flex justify-center">
-                                {/* <SheetDemo /> */}
+                                <SheetDemo />
                             </div>
                         </div>
                     </div>

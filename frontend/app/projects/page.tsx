@@ -12,6 +12,7 @@ import { useGetAllProjectMutation } from "@/redux/slices/projectsApiSlice";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import withAuth from "@/lib/PrivateRoute";
+import ProjectHeading from "@/components/ui/project-heading";
 interface User {
   userId: string;
 }
@@ -23,7 +24,7 @@ interface Project {
 }
 
 function MyComponent() {
-  const { projects, userInfo } = useSelector((state: any) => state.auth);
+  const { projects, userInfo,userType } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
   const filteredProjects = Array.isArray(projects)
     ? projects.filter((project: Project) =>
@@ -55,7 +56,9 @@ function MyComponent() {
       }}
     >
       <HeroHighlight>
-        <ProjectCardSection />
+        {userType ==="student"?
+        <div>
+          <ProjectCardSection />
         {sortedProjects.length > 0 && (
           <div>
             <div className="my-8">
@@ -68,6 +71,10 @@ function MyComponent() {
             <MultipleCardsAnimated projects={sortedProjects} />
           </div>
         )}
+        </div>:
+        <div>
+         <ProjectHeading /> 
+        </div>}
       </HeroHighlight>
     </motion.div>
   );

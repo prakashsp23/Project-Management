@@ -8,7 +8,7 @@ const router = express.Router();
 
 export const getAllProjects = router.get(
   "/projects",
-  authenticateToken,
+  // authenticateToken,
   expressAsyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
       // Fetch all projects from the database
