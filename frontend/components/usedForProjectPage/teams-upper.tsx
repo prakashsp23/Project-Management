@@ -156,31 +156,54 @@ function TeacherDetailCard({ projectDetails }: any) {
 
 function GithubCommitCard({ projectDetails }: any) {
   const [repoDetails, setRepoDetails] = useState<any>(null);
-  console.log(process.env.GITHUB_TOKEN);
+  const [totalCommits, setTotalCommits] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchRepoDetails = async () => {
       try {
-        const url = projectDetails.githubLink.replace(
+        const repoApiUrl = projectDetails.githubLink.replace(
           "https://github.com/",
           "https://api.github.com/repos/"
         );
-        const response = await axios.get(url, {
+
+        const repoResponse = await axios.get(repoApiUrl, {
           headers: {
             Accept: "application/vnd.github+json",
-            Authorization: `Bearer ${process.env.NEXT_GITHUB_TOKEN}`,
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
             "X-GitHub-Api-Version": "2022-11-28",
           },
         });
-        setRepoDetails(response.data);
+
+        setRepoDetails(repoResponse.data);
+
+        // Fetch total commits
+        const commitsResponse = await axios.get(`${repoApiUrl}/commits`, {
+          headers: {
+            Accept: "application/vnd.github+json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+            "X-GitHub-Api-Version": "2022-11-28",
+          },
+          params: {
+            per_page: 1,
+          },
+        });
+
+        const totalCommits = commitsResponse.headers["link"]
+          ? parseInt(
+              commitsResponse.headers["link"].match(
+                /&page=(\d+)>; rel="last"/
+              )[1]
+            )
+          : commitsResponse.data.length;
+
+        setTotalCommits(totalCommits);
       } catch (error) {
-        console.error("Error fetching repository details:", error);
+        console.error("Error fetching repository details or commits:", error);
       }
     };
 
     fetchRepoDetails();
   }, [projectDetails.githubLink]);
-
   if (!repoDetails) {
     return (
       <Card className="w-full grid items-center bg-transparent p-6">
@@ -220,9 +243,7 @@ function GithubCommitCard({ projectDetails }: any) {
             </p>
           </div>
           <div className="flex items-center">
-            <span className="text-2xl font-bold">
-              {repoDetails.stargazers_count}
-            </span>
+            <span className="text-2xl font-bold">{totalCommits}</span>
             <Link href={`/projects/${projectDetails.id}/timeline`}>
               <Button variant="default" className="ml-4">
                 View Timeline
