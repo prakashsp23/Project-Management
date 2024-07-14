@@ -1,5 +1,5 @@
 
-import { Message, UserData } from "@/components/data";
+import { Message, UserData } from "@/components/morecomponents/data";
 import ChatTopbar from "./chat-topbar";
 import { ChatList } from "./chat-list";
 import React from "react";
@@ -21,7 +21,7 @@ export function Chat({ messages, selectedUser, isMobile }: ChatProps) {
   return (
     <div className="flex flex-col justify-between w-full h-full">
       <ChatTopbar />
-        <ChatList
+      <ChatList
         messages={messagesState}
         selectedUser={selectedUser}
         sendMessage={sendMessage}

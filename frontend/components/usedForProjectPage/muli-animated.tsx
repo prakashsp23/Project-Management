@@ -1,9 +1,9 @@
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
-import { AnimatedTooltip } from "./ui/animated-tooltip"; // Corrected import
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
-import { cardData, CardData } from "./cardData";
+import { AnimatedTooltip } from "../ui/animated-tooltip"; // Corrected import
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card";
+import { cardData, CardData } from "../morecomponents/cardData";
 import Link from "next/link";
 
 export default function MultipleCardsAnimated(projects: any) {

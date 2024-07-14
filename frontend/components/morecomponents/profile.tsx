@@ -31,7 +31,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import React, { SyntheticEvent, useState } from "react";
 // import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";

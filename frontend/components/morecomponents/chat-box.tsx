@@ -1,9 +1,6 @@
-import { cookies } from "next/headers";
 import { ChatLayout } from "@/components/ui/chat/chat-layout";
-import { buttonVariants } from "@/components/ui/button";
-import Link from "next/link";
-import { BackgroundBeams } from "./ui/background-beams";
-import { Card } from "./ui/card";
+import { cookies } from "next/headers";
+import { Card } from "../ui/card";
 
 export default function Chatbox() {
     const layout = cookies().get("react-resizable-panels:layout");

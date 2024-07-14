@@ -1,28 +1,20 @@
 'use client'
-import { promises as fs } from "fs"
-import path from "path"
-import { Metadata } from "next"
-import Image from "next/image"
-import { z } from "zod"
 import { columns, columns1 } from "@/components/ui/progress table/component/columns"
 import { DataTable } from "@/components/ui/progress table/component/data-table"
-import { UserNav } from "@/components/ui/progress table/component/user-nav"
-import { taskSchema } from "@/components/ui/progress table/data/schema"
-import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
-import { setProjects } from "@/redux/slices/authSlice"
-import { useGetAllProjectMutation } from "@/redux/slices/projectsApiSlice"
 import {
     Tabs,
     TabsContent,
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
-import { Card } from "./ui/card"
+import { setProjects } from "@/redux/slices/authSlice"
+import { useGetAllProjectMutation } from "@/redux/slices/projectsApiSlice"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { BentoCardExperiment } from "./teams-upper"
 
-import { motion } from "framer-motion";
-import { MultiStepLoader } from "./ui/multi-step-loader"
+import { motion } from "framer-motion"
+import { MultiStepLoader } from "../ui/multi-step-loader"
 const loadingStates = [
     {
         text: "Fetching Project Details",

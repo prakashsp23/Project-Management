@@ -1,5 +1,4 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -23,8 +22,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
-import MultipleSelector, { Option } from "./ui/multiple-dropdown-selector";
+} from "../ui/select";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { useCreateProjectMutation } from "@/redux/slices/projectsApiSlice";
@@ -33,6 +31,7 @@ import { setProjects } from "@/redux/slices/authSlice";
 // import { toast } as toast1 from "react-toastify"  ;
 import { toast as toast1 } from "react-toastify";
 import withAuth from "@/lib/PrivateRoute";
+import MultipleSelector from "../ui/multiple-dropdown-selector";
 const OPTIONS: Option[] = [
   { label: "nextjs", value: "Nextjs" },
   { label: "React", value: "react" },
@@ -127,7 +126,6 @@ function ProfileForm() {
   console.log(projects);
   return (
     <div className="px-64 py-16 ">
-      <h1>{userInfo?.userId}</h1>
       <Card className="px-16 py-8">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

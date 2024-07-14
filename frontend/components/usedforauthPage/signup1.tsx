@@ -8,7 +8,8 @@ import {  useStudentRegisterMutation, useTeacherRegisterMutation } from "@/redux
 import { toast } from "react-toastify";
 import { setCredentials } from "@/redux/slices/authSlice";
 import { usePathname, useRouter } from "next/navigation";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
+// import { Select } from "../ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 export default function Signup() {
     const [firstName, setFirstName] = useState<string>("");

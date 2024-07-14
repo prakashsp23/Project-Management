@@ -1,6 +1,6 @@
 import React from "react";
 import { useTheme } from "next-themes";
-import { SparklesCore } from "./ui/sparkles";
+import { SparklesCore } from "../ui/sparkles";
 
 export function SparklesPreview({ children }: any) {
     const { theme } = useTheme();

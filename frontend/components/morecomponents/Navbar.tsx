@@ -1,6 +1,6 @@
 "use client"
-import { Button } from "./ui/button";
-import { ModeToggle } from "./ui/toggle-mode"; 
+import { Button } from "../ui/button";
+import { ModeToggle } from "../ui/toggle-mode"; 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"

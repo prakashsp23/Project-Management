@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { UserCard } from "../member-teacher";
+import { UserCard } from "../usedForProjectPage/member-teacher";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip";
 
 interface SidebarProps {
@@ -39,20 +39,20 @@ const MemberLink = ({ member, isCollapsed }: { member: any; isCollapsed: boolean
 
     if (isCollapsed) {
         return (
-            <TooltipImage name={name} image={image}/>
+            <TooltipImage name={name} image={image} />
         );
     } else {
         return (
             <UserCard
-            name={name}
-            imageUrl={image}
-            altText=""
+                name={name}
+                imageUrl={image}
+                altText=""
             />
         );
     }
 };
 
-const TooltipImage = ({ image, name }:any) => {
+const TooltipImage = ({ image, name }: any) => {
     return (
         <TooltipProvider>
             <Tooltip delayDuration={0}>

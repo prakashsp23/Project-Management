@@ -1,15 +1,11 @@
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { TabsTrigger, TabsList, TabsContent, Tabs } from "@/components/ui/tabs";
-import Link from "next/link";
-import Image from "next/image";
-import TeamTop from "../teams-upper";
-import { Card } from "./card";
-import { Chat } from "./chat/chat";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { useState } from "react";
-import { userData } from "../data";
+import { userData } from "../morecomponents/data";
+import { Card } from "../ui/card";
+import { Chat } from "../ui/chat/chat";
+import TeamTop from "./teams-upper";
 
-export default function TeamTab({projectParams}:any) {
+export default function TeamTab({ projectParams }: any) {
   const [selectedUser, setSelectedUser] = React.useState(userData[0]);
   const [isMobile, setIsMobile] = useState(false);
   return (
@@ -22,7 +18,7 @@ export default function TeamTab({projectParams}:any) {
           </TabsList>
         </div>
         <TabsContent value="project">
-          <TeamTop projectParams={projectParams}/>
+          <TeamTop projectParams={projectParams} />
         </TabsContent>
         <TabsContent value="chat">
           <div className="flex justify-center py-8 pb-10">

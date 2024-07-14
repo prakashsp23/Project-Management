@@ -2,7 +2,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ModeToggle } from "./ui/toggle-mode";
+import { ModeToggle } from "../ui/toggle-mode";
 import { ProfileDropdown } from "./profile";
 export const SlideTabs = () => {
   const [position, setPosition] = useState({
@@ -112,9 +112,8 @@ const Tab = ({ children, setPosition, isSelected, onClick, tabName }) => {
           });
         }
       }}
-      className={`relative z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-white  mix-blend-difference md:px-5 md:py-3 md:text-base ${
-        isSelected ? "font-bold text-black" : "text-gray-600"
-      }`}
+      className={`relative z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-white  mix-blend-difference md:px-5 md:py-3 md:text-base ${isSelected ? "font-bold text-black" : "text-gray-600"
+        }`}
     >
       {children}
     </li>
@@ -130,4 +129,4 @@ const Cursor = ({ position }) => {
       className="absolute z-0 h-7 rounded-full bg-black dark:bg-white md:h-12"
     />
   );
- };
+};

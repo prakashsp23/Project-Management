@@ -1,4 +1,4 @@
-import { Message, UserData } from "@/components/data";
+import { Message, UserData } from "@/components/morecomponents/data";
 import { cn } from "@/lib/utils";
 import React, { useRef } from "react";
 import { Avatar, AvatarImage } from "../avatar";
@@ -38,28 +38,28 @@ export function ChatList({
         const parts = message.message.split(urlRegex);
         const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         // const nameColor = message.type === 'teacher' ? 'text-red-400' : 'text-purple-300'; // Set color based on message type
-    
+
         return (
-                <Card className="bg-accent rounded-md max-w-xs">
-                    <CardHeader className={`text-[0.65rem] flex justify-center items-end py-1 px-3 text-purple-400 `}>{message.name}</CardHeader>
-                    <div className="py-1 px-3 ">
-                        {parts.map((part, index) => {
-                            if (part.match(urlRegex)) {
-                                return (
-                                    <a key={index} href={part} target="_blank" className="text-blue-400 hover:underline">
-                                        {part}
-                                    </a>
-                                );
-                            } else {
-                                const capitalizedPart = part.charAt(0).toUpperCase() + part.slice(1);
-                                return capitalizedPart;
-                            }
-                        })}
-                    </div>
-                    <CardFooter className="text-[0.65rem] flex justify-end text-muted-foreground pb-1 px-3">
-                        {currentTime}
-                    </CardFooter>
-                </Card>
+            <Card className="bg-accent rounded-md max-w-xs">
+                <CardHeader className={`text-[0.65rem] flex justify-center items-end py-1 px-3 text-purple-400 `}>{message.name}</CardHeader>
+                <div className="py-1 px-3 ">
+                    {parts.map((part, index) => {
+                        if (part.match(urlRegex)) {
+                            return (
+                                <a key={index} href={part} target="_blank" className="text-blue-400 hover:underline">
+                                    {part}
+                                </a>
+                            );
+                        } else {
+                            const capitalizedPart = part.charAt(0).toUpperCase() + part.slice(1);
+                            return capitalizedPart;
+                        }
+                    })}
+                </div>
+                <CardFooter className="text-[0.65rem] flex justify-end text-muted-foreground pb-1 px-3">
+                    {currentTime}
+                </CardFooter>
+            </Card>
         );
     };
 

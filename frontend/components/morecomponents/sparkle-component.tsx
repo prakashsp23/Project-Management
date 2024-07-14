@@ -1,6 +1,6 @@
 "use client";
 // import React from "react";
-import SparklesMain from "./ui/sparkle-bg-div";
+import SparklesMain from "../ui/sparkle-bg-div";
 import React, { FC } from 'react';
 export default function SparklesBg({ children }: any) {
     return (

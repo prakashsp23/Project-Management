@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-import SynopsisDisplay from "@/components/SynopsisDisplay";
+import SynopsisDisplay from "@/components/usedForProjectPage/SynopsisDisplay";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { Button } from "@/components/ui/button";

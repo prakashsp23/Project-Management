@@ -2,9 +2,9 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Spotlight } from "@/components/ui/spotlight";
-import { Highlight } from "./ui/hero-highlight";
+import { Highlight } from "../ui/hero-highlight";
 import { motion } from "framer-motion";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import Link from "next/link";
 
 export function HeroAuth() {
@@ -34,7 +34,7 @@ export function HeroAuth() {
                 <Button variant="neubutton" size="lg" className="rounded-none bg-[#6964f1]" asChild>
                     <Link href="/student">Student</Link>
                 </Button>
-                <Button variant="neubutton" size="lg" className="rounded-none bg-[#a456f7] "  asChild>
+                <Button variant="neubutton" size="lg" className="rounded-none bg-[#a456f7] " asChild>
                     <Link href="/teacher">Teacher</Link>
                 </Button>
             </div>

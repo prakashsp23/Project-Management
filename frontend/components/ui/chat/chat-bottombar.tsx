@@ -13,7 +13,7 @@ import React, { useRef, useState } from "react";
 import { Button, buttonVariants } from "../button";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import { Message, loggedInUserData } from "@/components/data";
+import { Message, loggedInUserData } from "@/components/morecomponents/data";
 import { Textarea } from "../textarea";
 import { EmojiPicker } from "../emoji-picker";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover";
@@ -48,7 +48,7 @@ export default function ChatBottombar({
     const newMessage: Message = {
       id: message.length + 1,
       name: loggedInUserData.name,
-      image:loggedInUserData.image,
+      image: loggedInUserData.image,
       // avatar: loggedInUserData.avatar,
       message: "👍",
     };
@@ -61,7 +61,7 @@ export default function ChatBottombar({
       const newMessage: Message = {
         id: message.length + 1,
         name: loggedInUserData.name,
-        image:loggedInUserData.image,
+        image: loggedInUserData.image,
         // avatar: loggedInUserData.avatar,
         message: message.trim(),
       };

@@ -1,7 +1,10 @@
-import ProfileDetails from "@/components/profiledetails";
+'use client'
+import ProfileDetails from "@/components/morecomponents/profiledetails";
+import withAuth from "@/lib/PrivateRoute";
 
-export default function Profile(){
+function Profile() {
     return (
-        <ProfileDetails/>
+        <ProfileDetails />
     )
 }
+export default withAuth(Profile);

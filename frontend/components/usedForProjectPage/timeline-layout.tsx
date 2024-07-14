@@ -11,7 +11,7 @@ import {
 	TimelineDescription,
 	TimelineContent,
 	TimelineTime,
-} from "@/components/timeline";
+} from "@/components/usedForProjectPage/timeline";
 import { TimelineElement } from "./git-line";
 // import { TimelineElement } from "@/app/data";
 

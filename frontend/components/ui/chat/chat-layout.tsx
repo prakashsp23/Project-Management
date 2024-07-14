@@ -1,7 +1,7 @@
 
 "use client";
 
-import { userData } from "@/components/data";
+import { userData } from "@/components/morecomponents/data";
 import React, { useEffect, useState } from "react";
 import {
     ResizableHandle,

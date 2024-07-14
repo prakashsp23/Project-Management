@@ -1,6 +1,6 @@
 import React from 'react';
-import { CardContent, CardHeader, CardTitle } from './ui/card';
-import { buttonVariants } from './ui/button';
+import { CardContent, CardHeader, CardTitle } from '../ui/card';
+import { buttonVariants } from '../ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 interface UserCardProps {
@@ -10,7 +10,7 @@ interface UserCardProps {
     // heading: string;
 };
 
-export function UserCard({ name, imageUrl, altText}:UserCardProps) {
+export function UserCard({ name, imageUrl, altText }: UserCardProps) {
     return (
         <>
             <div className='m-1'>

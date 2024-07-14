@@ -1,6 +1,6 @@
 
 import { useRouter } from 'next/navigation';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 
 export function CustomButtonForProjects({ projectId }: any) {
     const router = useRouter();

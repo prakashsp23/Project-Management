@@ -5,8 +5,9 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
-import Signin from "./ui/signin1"
-import Signup from "./ui/signup1"
+import Signin from "./signin1"
+import Signup from "./signup1"
+
 
 export function AuthTab() {
     return (
@@ -16,10 +17,10 @@ export function AuthTab() {
                 <TabsTrigger value="signup">SignUp</TabsTrigger>
             </TabsList>
             <TabsContent value="signin">
-                <Signin/>
+                <Signin />
             </TabsContent>
             <TabsContent value="signup">
-                <Signup/>
+                <Signup />
             </TabsContent>
         </Tabs>
     )

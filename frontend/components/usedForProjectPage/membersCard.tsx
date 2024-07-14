@@ -1,6 +1,6 @@
 import React from 'react';
 import { UserCard } from './member-teacher'; // Import the UserCard component from the correct path
-import { userData } from "@/components/data";
+import { userData } from "@/components/morecomponents/data";
 interface UserCardProps {
     name: string;
     imageUrl: string;
@@ -17,7 +17,7 @@ const UserCardList: React.FC<{ userData: UserCardProps[] }> = ({ userData }) => 
                     name={user.name}
                     imageUrl={user.imageUrl}
                     altText={user.altText}
-                    // heading="Members:"
+                // heading="Members:"
                 />
             ))}
         </div>

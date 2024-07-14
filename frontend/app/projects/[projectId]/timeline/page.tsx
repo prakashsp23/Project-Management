@@ -1,5 +1,6 @@
 'use client'
-import { TimelineLayout } from "@/components/timeline-layout";
+import { TimelineLayout } from "@/components/usedForProjectPage/timeline-layout";
+// import { TimelineLayout } from "@/components/timeline-layout";
 import withAuth from "@/lib/PrivateRoute";
 export const timelineData = [
 	{
@@ -37,10 +38,8 @@ function ProjectTimelinePage({ params }:any) {
 	console.log(params);
 	return (
 		<div className=" ml-[8rem]">
-			<h1>Project Timeline Page of id {params.projectId} </h1>
 			<div className='flex flex-col justify-center items-center my-16'>
 				{/* {params.projectId} */}
-
 				<TimelineLayout items={timelineData} />
 			</div>
 		</div>
