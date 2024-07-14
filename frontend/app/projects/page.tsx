@@ -27,15 +27,24 @@ interface Project {
 function MyComponent() {
   const { projects, userInfo,userType } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
-  const filteredProjects = Array.isArray(projects)
-    ? projects.filter((project: Project) =>
-        project.teamLeaderId === userInfo.userId ||
-        project.teamMembers.some((member: User) => member.userId === userInfo.userId)
-      )
-    : [];
-  const sortedProjects = filteredProjects.sort((a: Project, b: Project) =>
-    new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime()
-  );
+  // const filteredProjects = Array.isArray(projects)
+  //   ? projects.filter((project: Project) =>
+  //       project.teamLeaderId === userInfo.userId ||
+  //       project.teamMembers.some((member: User) => member.userId === userInfo.userId)
+  //     )
+  //   : [];
+  const filteredProjects = projects
+  ? projects.filter((project: Project) =>
+      project.teamLeaderId === userInfo.userId ||
+      (project.teamMembers && project.teamMembers.some((member: User) => member.userId === userInfo.userId))
+    )
+  : [];
+const sortedProjects = filteredProjects.sort((a: Project, b: Project) => {
+  // Sorting logic
+});
+  // const sortedProjects = filteredProjects.sort((a: Project, b: Project) =>
+  //   new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime()
+  // );
 
   const InsideSparkle = () => {
     return <ProjectCardSection />;

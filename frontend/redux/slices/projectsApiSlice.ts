@@ -37,6 +37,13 @@ export const projectsApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    updateStatus: builder.mutation({
+      query: (data) => ({
+        url: `${PROJETS_URL}/${data?.id}/status`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
     // createProject: builder.mutation({
     //   query: (data) => ({
     //     url: `${PROJETS_URL}`,
@@ -67,4 +74,5 @@ export const {
   useCreateProjectMutation,
   useGetProjectByIdMutation,
   useUpdateProjectMutation,
+  useUpdateStatusMutation,
 } = projectsApiSlice;

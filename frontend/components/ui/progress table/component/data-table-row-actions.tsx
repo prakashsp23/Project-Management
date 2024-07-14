@@ -20,6 +20,7 @@ import {
 
 import { labels } from "../data/data"
 import { taskSchema } from "../data/schema"
+import SynopsisStatusChange from "@/app/testing2/page"
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -42,8 +43,8 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
+        {/* <DropdownMenuItem><SynopsisStatusChange/></DropdownMenuItem> */}
         <DropdownMenuItem>Edit</DropdownMenuItem>
-        <DropdownMenuItem>Make a copy</DropdownMenuItem>
         <DropdownMenuItem>Favorite</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuSub>

@@ -134,16 +134,11 @@ import { useGetProjectByIdMutation } from "@/redux/slices/projectsApiSlice";
 import { toast } from "sonner";
 import { setCurrentProject } from "@/redux/slices/authSlice";
 import { MultiStepLoader } from "./ui/multi-step-loader";
+import SynopsisStatusChange from "@/components/synopsisStatusChange";
 const loadingStates = [
   {
     text: "Fetching Project Details",
   },
-  // {
-  //   text: "Fetching Members",
-  // },
-  // {
-  //   text: "Fetching Teachers",
-  // },
   {
     text: "Getting things ready",
   }
@@ -153,42 +148,7 @@ export default function TeamTop({ projectParams }: any) {
   const router = useRouter();
   const dispatch = useDispatch();
   const projectDetails = projects.find((p: any) => p.id === projectParams.projectId);
-  // const [currentProject, { isLoading: isCurrentProject }] =useGetProjectByIdMutation();
-  // useEffect(()=>{
-    
-  // },[])
-  // const [currentProject, { isLoading: isCurrentProject }] = useGetProjectByIdMutation();
-
-  // // useEffect hook to call the API when the component mounts
-  // useEffect(() => {
-  //   // Call the API to fetch project details when the component mounts
-  //   // currentProject({ id: projectParams.projectId });
-  //   const fetchData = async () => {
-  //     try {
-  //       const currentProjectsRes: any = await currentProject().unwrap();
-  //       dispatch(setCurrentProject(projectsRes.projects));
-  //     } catch (error: any) {
-  //       toast.error(error?.data?.message || error.error);
-  //     }
-  //   };
-  // }, []); 
   const [getProjectById, { isLoading: isGettingProject }] = useGetProjectByIdMutation();
-
-  // useEffect(() => {
-  //   const fetchProjectById = async () => {
-  //     try {
-  //       const currProjectRes: any = await getProjectById({ id: projectParams.projectId }).unwrap();
-  //       // Handle the project response as needed
-  //       console.log("Project details:", currProjectRes);
-  //       dispatch(setCurrentProject(currProjectRes.currentProject));
-  //     } catch (error: any) {
-  //       // Handle any errors
-  //       console.error("Error fetching project by ID:", error?.data?.message || error.error);
-  //     }
-  //   };
-
-  //   fetchProjectById();
-  // }, [projectParams.projectId]);
   useEffect(() => {
     const fetchProjectById = async () => {
       try {
@@ -205,26 +165,6 @@ export default function TeamTop({ projectParams }: any) {
     fetchProjectById();
     // console.log(fetchProjectById);
   }, []); 
-  // console.log(fetchProjectById);
-  // console.log(currentProject);
-  // const filteredProjects: any = projects?.filter(
-  //   (project: any) => project.teamLeaderId === userInfo.userId
-  // );
-
-  // // Find the project with the latest dateCreated
-  // const latestProject: any | undefined = filteredProjects?.reduce(
-  //   (prev: any | undefined, current: any) => {
-  //     if (!prev) return current;
-  //     const prevDate: Date = new Date(prev.dateCreated);
-  //     const currentDate: Date = new Date(current.dateCreated);
-  //     // Return the project with the later dateCreated
-  //     return prevDate > currentDate ? prev : current;
-  //   },
-  //   undefined // Start with undefined as initial value
-  // );
-
-  // console.log(latestProject);
-  // console.log(projectDetails.projectId);
   if(isGettingProject){
     return (
       <div className="w-full h-[60vh] flex items-center justify-center">
@@ -397,6 +337,8 @@ function TechnologiesUsedCard({ projectDetails }: any) {
   )
 }
 function SynopsisDetailCard({ projectDetails }: any) {
+  const { userInfo,userType } = useSelector((state: any) => state.auth);
+  const isteacher=userType==="teacher";
   return (
     <Card className="w-full grid items-center max-w-md bg-card text-card-foreground p-6 rounded-lg shadow-lg">
       <div className="space-y-4">
@@ -409,15 +351,21 @@ function SynopsisDetailCard({ projectDetails }: any) {
             {/* <h3 className="font-semibold leading-none tracking-tight">Commits</h3> */}
             <p className="text-sm text-muted-foreground">Status:</p>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center flex-col">
+          
             <span className="text-sm">{projectDetails.status}</span>
+            
           </div>
+          
         </div>
+        <div className="space-y-4">
         <Link href={`/projects/${projectDetails.id}/synopsis`}>
           <Button variant="outline" className="w-full mt-6">
             View Synopsis
           </Button>
         </Link>
+        {isteacher && <SynopsisStatusChange projectId={projectDetails.id}/>}
+        </div>
       </div>
     </Card>
   )

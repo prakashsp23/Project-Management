@@ -1,27 +1,55 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import SynopsisDisplay from "@/components/SynopsisDisplay";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { Button } from "@/components/ui/button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import withAuth from "@/lib/PrivateRoute";
-
+import { useRouter } from "next/navigation";
+import { useGetProjectByIdMutation } from "@/redux/slices/projectsApiSlice";
+import { setCurrentProject } from "@/redux/slices/authSlice";
+import { MultiStepLoader } from "@/components/ui/multi-step-loader";
+import SynopsisStatusChange from "@/app/testing2/page";
+const loadingStates = [
+  {
+    text: "Fetching Synopsis Details",
+  },
+  {
+    text: "Generating Synopsis",
+  },
+  {
+    text: "Getting things ready",
+  }
+];
 function SynopsisPage({ params }: any) {
-  const { projects, userInfo } = useSelector((state: any) => state.auth);
-  const projectDetail = projects.find((p: any) => p.id === params.projectId);
-  console.log(projectDetail);
-  // console.log(projectDetail?.technologiesUsed.map((tech: any, index: number) => tech).join(', '));
+  const { userInfo, projects ,currentProject } = useSelector((state: any) => state.auth);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [getProjectById, { isLoading: isGettingProject }] = useGetProjectByIdMutation();
+  useEffect(() => {
+    const fetchProjectById = async () => {
+      try {
+        const currProjectRes: any = await getProjectById({ id: params.projectId }).unwrap();
+        console.log("Project details:", currProjectRes);
+        dispatch(setCurrentProject(currProjectRes.project));
+      } catch (error: any) {
+        console.error("Error fetching project by ID:", error?.data?.message || error.error);
+      }
+    };
+
+    fetchProjectById();
+  }, []); 
   const data = {
     students: [
-      { crn: `${projectDetail.teamLeaderId}`, urn: "4623", name: "XYSSDA" },
+      { crn: `${currentProject.teamLeaderId}`, urn: "4623", name: "XYSSDA" },
       { crn: "3001113210131", urn: "3812", name: "SDASDWDA" },
       { crn: "3001113210313", urn: "3923", name: "JOHN DOE" },
     ],
-    projectTitle: `${projectDetail.title}`,
-    projectDescription: `${projectDetail.description}`,
-    typeOfProject: `${projectDetail.projectType}`,
-    softwareRequirement: `${projectDetail?.technologiesUsed
+    projectTitle: `${currentProject.title}`,
+    projectDescription: `${currentProject.description}`,
+    typeOfProject: `${currentProject.projectType}`,
+    softwareRequirement: `${currentProject?.technologiesUsed
       .map((tech: any, index: number) => tech)
       .join(", ")}`,
     hardwareRequirement: "",
@@ -51,7 +79,13 @@ function SynopsisPage({ params }: any) {
       console.log(e);
     }
   };
-
+  if(isGettingProject){
+    return (
+      <div className="w-full h-[60vh] flex items-center justify-center">
+        <MultiStepLoader loadingStates={loadingStates} loading={isGettingProject} duration={1000} />
+      </div>
+    )
+  }
   return (
     <div className="  ">
       <div
@@ -63,6 +97,7 @@ function SynopsisPage({ params }: any) {
       </div>
       <div className="flex justify-center p-8">
         <Button onClick={handleGeneratePdf}>Download Synopsis</Button>
+        {/* <SynopsisStatusChange/> */}
       </div>
     </div>
   );

@@ -57,17 +57,15 @@ export default function TaskPageForTeacher() {
     }, []);
     const projectsAsMentors = Array.isArray(projects)
         ? projects.filter((project: any) =>
-            // project.teamLeaderId === userInfo.userId ||
-            project.mentors.some((member: any) => member.userId === userInfo.userId)
+            (project.mentors && project.mentors.some((mentor: any) => mentor.userId === userInfo.userId))
         )
         : [];
+
     const projectsAsCC = Array.isArray(projects)
         ? projects.filter((project: any) =>
-            // project.teamLeaderId === userInfo.userId ||
-            project.classCoordinator.some((member: any) => member.userId === userInfo.userId)
+            (project.classCoordinator && project.classCoordinator.some((ccMember: any) => ccMember.userId === userInfo.userId))
         )
         : [];
-    // console.log(projectsAsMentors);
     const tasks = Array.isArray(projectsAsCC) ? projectsAsCC.map((project, index) => ({
         id: index + 1,
         title: project.title,

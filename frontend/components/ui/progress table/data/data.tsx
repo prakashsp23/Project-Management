@@ -46,7 +46,7 @@ import {
       icon: CheckCircledIcon,
     },
     {
-      value: "Rejected",
+      value: "REJECTED",
       label: "Rejected",
       icon: CrossCircledIcon,
     },
