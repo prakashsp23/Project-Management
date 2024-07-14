@@ -20,32 +20,37 @@ const loadingStates = [
   },
   {
     text: "Getting things ready",
-  }
+  },
 ];
 function SynopsisPage({ params }: any) {
-  const { userInfo, projects ,currentProject } = useSelector((state: any) => state.auth);
+  const { userInfo, projects, currentProject } = useSelector(
+    (state: any) => state.auth
+  );
   const router = useRouter();
   const dispatch = useDispatch();
-  const [getProjectById, { isLoading: isGettingProject }] = useGetProjectByIdMutation();
+  const [getProjectById, { isLoading: isGettingProject }] =
+    useGetProjectByIdMutation();
   useEffect(() => {
     const fetchProjectById = async () => {
       try {
-        const currProjectRes: any = await getProjectById({ id: params.projectId }).unwrap();
+        const currProjectRes: any = await getProjectById({
+          id: params.projectId,
+        }).unwrap();
         console.log("Project details:", currProjectRes);
         dispatch(setCurrentProject(currProjectRes.project));
       } catch (error: any) {
-        console.error("Error fetching project by ID:", error?.data?.message || error.error);
+        console.error(
+          "Error fetching project by ID:",
+          error?.data?.message || error.error
+        );
       }
     };
 
     fetchProjectById();
-  }, []); 
+  }, []);
+  const team = currentProject.teamMembers.concat(currentProject.teamLeader);
   const data = {
-    students: [
-      { crn: `${currentProject.teamLeaderId}`, urn: "4623", name: "XYSSDA" },
-      { crn: "3001113210131", urn: "3812", name: "SDASDWDA" },
-      { crn: "3001113210313", urn: "3923", name: "JOHN DOE" },
-    ],
+    students: team,
     projectTitle: `${currentProject.title}`,
     projectDescription: `${currentProject.description}`,
     typeOfProject: `${currentProject.projectType}`,
@@ -79,12 +84,16 @@ function SynopsisPage({ params }: any) {
       console.log(e);
     }
   };
-  if(isGettingProject){
+  if (isGettingProject) {
     return (
       <div className="w-full h-[60vh] flex items-center justify-center">
-        <MultiStepLoader loadingStates={loadingStates} loading={isGettingProject} duration={1000} />
+        <MultiStepLoader
+          loadingStates={loadingStates}
+          loading={isGettingProject}
+          duration={1000}
+        />
       </div>
-    )
+    );
   }
   return (
     <div className="  ">

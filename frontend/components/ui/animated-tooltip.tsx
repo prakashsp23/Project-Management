@@ -14,9 +14,12 @@ export const AnimatedTooltip = ({
 }: {
   items: {
     id: number;
-    name: string;
-    designation: string;
-    image: string;
+    username: string;
+    role: string;
+    profile: {
+      firstName: string;
+      lastName: string;
+    };
   }[];
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -42,7 +45,7 @@ export const AnimatedTooltip = ({
       {items.map((item, idx) => (
         <div
           className="-mr-4  relative group"
-          key={item.name}
+          key={item.username}
           onMouseEnter={() => setHoveredIndex(item.id)}
           onMouseLeave={() => setHoveredIndex(null)}
         >
@@ -70,17 +73,22 @@ export const AnimatedTooltip = ({
               <div className="absolute inset-x-10 z-30 w-[20%] -bottom-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent h-px " />
               <div className="absolute left-10 w-[40%] z-30 -bottom-px bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px " />
               <div className="font-bold dark:text-white text-black relative z-30 text-base">
-                {item.name}
+                {item.profile.firstName + " " + item.profile.lastName}
               </div>
-              <div className="dark:text-white text-black text-xs">{item.designation}</div>
+              <div className="dark:text-white text-black text-xs">
+                {item.role}
+              </div>
             </motion.div>
           )}
           <Image
             onMouseMove={handleMouseMove}
             height={100}
             width={100}
-            src={item.image}
-            alt={item.name}
+            src={
+              // item.image ||
+              "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80"
+            }
+            alt={item.username}
             className="object-cover !m-0 !p-0 object-top rounded-full h-10 w-10 border-2 group-hover:scale-105 group-hover:z-30 border-white  relative transition duration-500"
           />
         </div>
