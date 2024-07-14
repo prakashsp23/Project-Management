@@ -52,7 +52,7 @@ export const SlideTabs = () => {
         </Tab>
       </Link>
 
-      <Link href="/team">
+      {/* <Link href="/team">
         <Tab
           setPosition={setPosition}
           isSelected={selectedTab === "team"}
@@ -61,7 +61,7 @@ export const SlideTabs = () => {
         >
           Team
         </Tab>
-      </Link>
+      </Link> */}
 
       <Link href="/chat">
         <Tab

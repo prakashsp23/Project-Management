@@ -10,6 +10,7 @@ import { toast } from "sonner"
 export default function Home() {
   const userInfo = useSelector((state: any) => state.auth.userInfo);
   const { userType } = useSelector((state:any) => state.auth);
+  
   const InsideSparkle = () => {
     return <h1 className="text-5xl font-bold">MINI PROJECT</h1>;
   };

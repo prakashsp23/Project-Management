@@ -53,9 +53,9 @@ function SynopsisPage({ params }: any) {
   };
 
   return (
-    <div className=" p-24">
+    <div className="  ">
       <div
-        className="container bg-white mx-auto"
+        className="container bg-white mx-auto w-[80rem] border-2"
         ref={synopsisRef}
         style={{ backgroundColor: "#ffffff", color: "#000000" }}
       >

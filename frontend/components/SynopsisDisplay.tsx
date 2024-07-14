@@ -20,7 +20,8 @@ interface SynopsisDisplayProps {
 
 function SynopsisDisplay({ data }: SynopsisDisplayProps) {
     return (
-        <div className="py-8 px-8 font-sans">
+    <div className='flex justify-center items-center'>
+<div className="py-8 px-8 font-sans w-[70rem]">
             <div className="text-center mb-8">
                 <Image src="/bit7.png" alt="Logo" className="mx-auto mb-4" width={1000} height={1000} />
                 <h2 className="text-2xl font-bold">Department of Computer Science & Engineering (Artificial Intelligence)</h2>
@@ -80,6 +81,8 @@ function SynopsisDisplay({ data }: SynopsisDisplayProps) {
                 </div>
             </div>
         </div>
+    </div>
+        
     );
 }
 

@@ -133,9 +133,23 @@ import { BentoGrid } from "./bento-grid";
 import { useGetProjectByIdMutation } from "@/redux/slices/projectsApiSlice";
 import { toast } from "sonner";
 import { setCurrentProject } from "@/redux/slices/authSlice";
-
+import { MultiStepLoader } from "./ui/multi-step-loader";
+const loadingStates = [
+  {
+    text: "Fetching Project Details",
+  },
+  // {
+  //   text: "Fetching Members",
+  // },
+  // {
+  //   text: "Fetching Teachers",
+  // },
+  {
+    text: "Getting things ready",
+  }
+];
 export default function TeamTop({ projectParams }: any) {
-  const { userInfo, projects } = useSelector((state: any) => state.auth);
+  const { userInfo, projects ,currentProject } = useSelector((state: any) => state.auth);
   const router = useRouter();
   const dispatch = useDispatch();
   const projectDetails = projects.find((p: any) => p.id === projectParams.projectId);
@@ -181,7 +195,7 @@ export default function TeamTop({ projectParams }: any) {
         const currProjectRes: any = await getProjectById({ id: projectParams.projectId }).unwrap();
         // Handle the project response as needed
         console.log("Project details:", currProjectRes);
-        dispatch(setCurrentProject(currProjectRes.projects));
+        dispatch(setCurrentProject(currProjectRes.project));
       } catch (error: any) {
         // Handle any errors
         console.error("Error fetching project by ID:", error?.data?.message || error.error);
@@ -211,7 +225,14 @@ export default function TeamTop({ projectParams }: any) {
 
   // console.log(latestProject);
   // console.log(projectDetails.projectId);
-  return projectDetails ? (
+  if(isGettingProject){
+    return (
+      <div className="w-full h-[60vh] flex items-center justify-center">
+        <MultiStepLoader loadingStates={loadingStates} loading={isGettingProject} duration={1000} />
+      </div>
+    )
+  }
+  return currentProject ? (
     <div className="h-auto py-8">
       {/* <div className="grid grid-cols-6 grid-rows-2 gap-4">
         <div className="flex flex-col col-span-2 row-span-2 gap-2 ml-8">
@@ -238,15 +259,15 @@ export default function TeamTop({ projectParams }: any) {
       {/* {features.map((feature, idx) => (
         <BentoCard key={idx} {...feature} />
       ))} */}
-          <ProjectDetailCard projectDetails={projectDetails} />
+          <ProjectDetailCard projectDetails={currentProject} />
           <MemberDetailCard />
           <TeacherDetailCard />
           <BentoCardExperiment>
-          <GithubCommitCard projectDetails={projectDetails} />
+          <GithubCommitCard projectDetails={currentProject} />
         </BentoCardExperiment>
           {/* <GithubCommitCard projectDetails={projectDetails} /> */}
-          <TechnologiesUsedCard projectDetails={projectDetails} />
-          <SynopsisDetailCard projectDetails={projectDetails} />
+          <TechnologiesUsedCard projectDetails={currentProject} />
+          <SynopsisDetailCard projectDetails={currentProject} />
     </BentoGrid>
     {/* <BentoCardExperiment>
           <GithubCommitCard projectDetails={projectDetails} />
@@ -401,16 +422,17 @@ function SynopsisDetailCard({ projectDetails }: any) {
     </Card>
   )
 }
-export function BentoCardExperiment({children}){
+export function BentoCardExperiment({children,className}:any){
   return(
     <div
-        className={cn(
-            "group relative col-span-3 flex flex-col justify-between overflow-hidden rounded-xl",
-            // light styles
-            "bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]",
-            // dark styles
-            "transform-gpu dark:bg-black dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]",
-        )}
+    className={cn(
+      "group relative col-span-3 flex flex-col justify-between overflow-hidden rounded-xl",
+      // light styles
+      "bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]",
+      // dark styles
+      "transform-gpu dark:bg-black dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]",
+      className,
+  )}
     >
         {/* <div>background</div> */}
         {/* <div className="pointer-events-none z-10 flex transform-gpu flex-col gap-1 p-6 transition-all duration-300 group-hover:-translate-y-10">

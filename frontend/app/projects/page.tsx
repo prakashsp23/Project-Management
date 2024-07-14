@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import withAuth from "@/lib/PrivateRoute";
 import ProjectHeading from "@/components/ui/project-heading";
+import TaskPageForTeacher from "@/components/TeacherProjectSection";
 interface User {
   userId: string;
 }
@@ -55,27 +56,34 @@ function MyComponent() {
         ease: [0.4, 0.0, 0.2, 1],
       }}
     >
-      <HeroHighlight>
-        {userType ==="student"?
+      
+        
+      {/* </HeroHighlight> */}
+      {userType ==="student" && 
+        <HeroHighlight>
         <div>
-          <ProjectCardSection />
-        {sortedProjects.length > 0 && (
-          <div>
-            <div className="my-8">
-              <SparklesPreview>
-                <h1 className="text-6xl font-bold text-center relative bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-2">
-                  Projects
-                </h1>
-              </SparklesPreview>
-            </div>
-            <MultipleCardsAnimated projects={sortedProjects} />
+        <ProjectCardSection />
+      {sortedProjects.length > 0 && (
+        <div>
+          <div className="my-8">
+            <SparklesPreview>
+              <h1 className="text-6xl font-bold text-center relative bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-2">
+                Projects
+              </h1>
+            </SparklesPreview>
           </div>
-        )}
-        </div>:
-        <div>
-         <ProjectHeading /> 
-        </div>}
+          <MultipleCardsAnimated projects={sortedProjects} />
+        </div>
+      )}
+      </div>
       </HeroHighlight>
+      // <div>
+      //  <ProjectHeading /> 
+      // </div>}
+    }
+      {userType ==="teacher"&& 
+        <TaskPageForTeacher/>
+        }
     </motion.div>
   );
 }
