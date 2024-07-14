@@ -22,10 +22,26 @@ export const getProjectById = router.get(
           id,
         },
         include: {
-          teamMembers: true,
-          mentors: true,
-          classCoordinator: true,
-          teamLeader: true,
+          teamMembers: {
+            include: {
+              profile: true,
+            },
+          },
+          mentors: {
+            include: {
+              profile: true,
+            },
+          },
+          classCoordinator: {
+            include: {
+              profile: true,
+            },
+          },
+          teamLeader: {
+            include: {
+              profile: true,
+            },
+          },
         },
       });
 

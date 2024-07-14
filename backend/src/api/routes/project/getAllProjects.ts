@@ -17,10 +17,26 @@ export const getAllProjects = router.get(
       // Fetch all projects from the database
       const projects = await prisma.project.findMany({
         include: {
-          teamMembers: true,
-          mentors: true,
-          classCoordinator: true,
-          teamLeader: true,
+          teamMembers: {
+            include: {
+              profile: true,
+            },
+          },
+          mentors: {
+            include: {
+              profile: true,
+            },
+          },
+          classCoordinator: {
+            include: {
+              profile: true,
+            },
+          },
+          teamLeader: {
+            include: {
+              profile: true,
+            },
+          },
         },
       });
 
